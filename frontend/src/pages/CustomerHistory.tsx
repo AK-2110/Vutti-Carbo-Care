@@ -43,7 +43,7 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
                 <th className="px-6 py-4 font-medium">Vehicle</th>
                 <th className="px-6 py-4 font-medium">Engine</th>
                 <th className="px-6 py-4 font-medium">Mileage</th>
-                <th className="px-6 py-4 font-medium text-right">Revenue</th>
+                {isAdmin && <th className="px-6 py-4 font-medium text-right">Revenue</th>}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -88,9 +88,11 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
                     <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
                       {job.mileage?.toLocaleString() || 'N/A'}
                     </td>
-                    <td className="px-6 py-4 text-right font-medium text-brand-default">
-                      {job.revenue ? `₹${job.revenue}` : 'N/A'}
-                    </td>
+                    {isAdmin && (
+                      <td className="px-6 py-4 text-right font-medium text-brand-default">
+                        {job.revenue ? `₹${job.revenue}` : 'N/A'}
+                      </td>
+                    )}
                   </tr>
                 ))
               )}
