@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CarbonSummary from '../components/widgets/CarbonSummary';
 import EmissionTrends from '../components/widgets/EmissionTrends';
-import { Wind, MessageCircle, X, Star } from 'lucide-react';
+import { Wind, MessageCircle, X, Star, Instagram, Youtube } from 'lucide-react';
 
 export default function UserDashboard({ setActiveTab }: { setActiveTab?: (tab: string) => void }) {
   const [stats, setStats] = useState<any>(null);
@@ -80,15 +80,37 @@ export default function UserDashboard({ setActiveTab }: { setActiveTab?: (tab: s
         <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-xl mx-auto">
           Book your engine carbon service today and experience better mileage, smoother performance, and reduced emissions instantly.
         </p>
-        <a 
-          href="https://wa.me/918885041661?text=Hello!%20I%20would%20like%20to%20book%20an%20engine%20carbon%20service."
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-lg shadow-emerald-500/20"
-        >
-          <MessageCircle className="w-5 h-5" />
-          Book via WhatsApp
-        </a>
+        <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4">
+          <a 
+            href="https://wa.me/918885041661?text=Hello!%20I%20would%20like%20to%20book%20an%20engine%20carbon%20service."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 shadow-lg shadow-emerald-500/20"
+          >
+            <MessageCircle className="w-5 h-5" />
+            WhatsApp
+          </a>
+          
+          <a 
+            href="https://www.instagram.com/vutticarbocare?utm_source=qr&igsh=MXMwczBjaTF6c3Y0NQ=="
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] hover:opacity-90 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 shadow-lg shadow-pink-500/20"
+          >
+            <Instagram className="w-5 h-5" />
+            Instagram
+          </a>
+
+          <a 
+            href="https://youtube.com/@vutticarbocare7?si=gbUPYJPdTfjrlXUN"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 shadow-lg shadow-red-500/20"
+          >
+            <Youtube className="w-5 h-5" />
+            YouTube
+          </a>
+        </div>
       </div>
 
       {/* Pricing Section */}
