@@ -4,6 +4,7 @@ import { Search } from 'lucide-react';
 export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
   const [jobs, setJobs] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [dateFilter, setDateFilter] = useState('all');
 
   useEffect(() => {
     fetch('http://localhost:3001/api/jobs/history')
@@ -14,7 +15,7 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
 
   const filteredJobs = jobs.filter(job => {
     const term = searchTerm.toLowerCase();
-    return (
+    const matchesSearch = (
       (job.customerName?.toLowerCase().includes(term)) ||
       (job.customerPhone?.toLowerCase().includes(term)) ||
       (job.customerLocation?.toLowerCase().includes(term)) ||
@@ -22,6 +23,23 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
       (job.vehicleModel?.toLowerCase().includes(term)) ||
       (job.vehicleType?.toLowerCase().includes(term))
     );
+
+    if (!matchesSearch) return false;
+
+    const jobDate = new Date(job.recordedAt);
+    const now = new Date();
+
+    if (dateFilter === '7days') {
+      const sevenDaysAgo = new Date(now.setDate(now.getDate() - 7));
+      return jobDate >= sevenDaysAgo;
+    }
+    
+    if (dateFilter === '30days') {
+      const thirtyDaysAgo = new Date(now.setDate(now.getDate() - 30));
+      return jobDate >= thirtyDaysAgo;
+    }
+
+    return true;
   });
 
   return (
@@ -42,9 +60,16 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
               className="w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-brand-default/20 focus:border-brand-default text-sm transition-colors"
             />
           </div>
-          <button className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-default transition-colors">
-            Filter Results
-          </button>
+          
+          <select 
+            value={dateFilter}
+            onChange={(e) => setDateFilter(e.target.value)}
+            className="text-sm font-medium text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-default/20 focus:border-brand-default outline-none transition-colors cursor-pointer"
+          >
+            <option value="all">All Time</option>
+            <option value="7days">Last 7 Days</option>
+            <option value="30days">Last 30 Days</option>
+          </select>
         </div>
 
         <div className="flex-1 overflow-auto">
