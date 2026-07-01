@@ -48,7 +48,7 @@ function App() {
       case 'dashboard': return isAdmin ? <AdminDashboard setActiveTab={setActiveTab} /> : <UserDashboard setActiveTab={setActiveTab} />;
       case 'jobs': return <ServiceJobs isAdmin={isAdmin} />;
       case 'history': return <CustomerHistory isAdmin={isAdmin} />;
-      case 'insights': return <BusinessInsights isAdmin={isAdmin} setActiveTab={setActiveTab} />;
+      case 'insights': return <BusinessInsights setActiveTab={setActiveTab} />;
       case 'settings': return <Settings isAdmin={isAdmin} />;
       default: return isAdmin ? <AdminDashboard setActiveTab={setActiveTab} /> : <UserDashboard setActiveTab={setActiveTab} />;
     }
