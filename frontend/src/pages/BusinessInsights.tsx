@@ -3,7 +3,7 @@ import EmissionTrends from '../components/widgets/EmissionTrends';
 import RegionalComparison from '../components/widgets/RegionalComparison';
 import EmissionBreakdown from '../components/widgets/EmissionBreakdown';
 
-export default function BusinessInsights({ isAdmin, setActiveTab }: { isAdmin?: boolean, setActiveTab?: (tab: string) => void }) {
+export default function BusinessInsights({ setActiveTab }: { setActiveTab?: (tab: string) => void }) {
   const [stats, setStats] = useState<any>(null);
 
   useEffect(() => {

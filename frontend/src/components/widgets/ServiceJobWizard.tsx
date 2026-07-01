@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Car, Wrench, FileCheck, CheckCircle2, ChevronRight, Activity, Zap } from 'lucide-react';
+import { Car, FileCheck, CheckCircle2, ChevronRight } from 'lucide-react';
 import { vehicleData, type VehicleType } from '../../data/vehicles';
 
 const PRICING: Record<VehicleType, number> = {
@@ -223,16 +223,10 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
                     onChange={(e) => setEngineType(e.target.value)}
                     className="w-full px-4 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-default/20 focus:border-brand-default transition-all"
                   >
-                    {vehicleType === 'Truck' || vehicleType === 'Bus' || vehicleType === 'Tractor' ? (
+                    {vehicleType === 'Truck' || vehicleType === 'Bus' || vehicleType === 'Van/Tractor/JCB' ? (
                       <>
                         <option value="Diesel">Diesel</option>
                         <option value="Petrol">Petrol</option>
-                      </>
-                    ) : vehicleType === 'Van' ? (
-                      <>
-                        <option value="Diesel">Diesel</option>
-                        <option value="Petrol">Petrol</option>
-                        <option value="Electric">Electric</option>
                       </>
                     ) : (
                       <>

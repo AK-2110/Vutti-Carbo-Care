@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CarbonSummary from '../components/widgets/CarbonSummary';
 import EmissionTrends from '../components/widgets/EmissionTrends';
-import { Wind, MessageCircle, X, Star, Camera, Play } from 'lucide-react';
+import { MessageCircle, X, Star, Camera, Play } from 'lucide-react';
 
 export default function UserDashboard({ setActiveTab }: { setActiveTab?: (tab: string) => void }) {
   const [stats, setStats] = useState<any>(null);

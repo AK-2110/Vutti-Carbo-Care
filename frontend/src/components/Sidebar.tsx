@@ -1,13 +1,9 @@
 import { 
   LayoutDashboard, 
   Wrench, 
-  History, 
   BarChart3, 
-  Users, 
   Settings,
-  Zap,
-  Clock,
-  Wind
+  Clock
 } from 'lucide-react';
 
 interface SidebarProps {
