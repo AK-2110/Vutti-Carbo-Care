@@ -34,7 +34,7 @@ export default function ServiceJobs({ isAdmin }: { isAdmin?: boolean }) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {isAdmin && (
           <div className="lg:col-span-2 min-w-0">
-            <ServiceJobWizard onComplete={fetchJobs} />
+            <ServiceJobWizard onJobLogged={fetchJobs} />
           </div>
         )}
         
@@ -49,7 +49,7 @@ export default function ServiceJobs({ isAdmin }: { isAdmin?: boolean }) {
               <p className="text-sm text-slate-500 dark:text-slate-400 text-center mt-8">No jobs logged today yet.</p>
             ) : (
               <div className="space-y-3">
-                {jobs.map((job: any) => (
+                {todaysJobs.map((job: any) => (
                   <div key={job.id} className="p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 hover:border-brand-default/30 transition-colors">
                     <div className="flex justify-between items-start mb-2">
                       <div>
