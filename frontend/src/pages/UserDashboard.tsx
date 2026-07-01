@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CarbonSummary from '../components/widgets/CarbonSummary';
 import EmissionTrends from '../components/widgets/EmissionTrends';
-import { Wind, MessageCircle, X, Star, Instagram, Youtube } from 'lucide-react';
+import { Wind, MessageCircle, X, Star, Camera, Play } from 'lucide-react';
 
 export default function UserDashboard({ setActiveTab }: { setActiveTab?: (tab: string) => void }) {
   const [stats, setStats] = useState<any>(null);
@@ -97,7 +97,7 @@ export default function UserDashboard({ setActiveTab }: { setActiveTab?: (tab: s
             rel="noopener noreferrer"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] hover:opacity-90 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 shadow-lg shadow-pink-500/20"
           >
-            <Instagram className="w-5 h-5" />
+            <Camera className="w-5 h-5" />
             Instagram
           </a>
 
@@ -107,7 +107,7 @@ export default function UserDashboard({ setActiveTab }: { setActiveTab?: (tab: s
             rel="noopener noreferrer"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 shadow-lg shadow-red-500/20"
           >
-            <Youtube className="w-5 h-5" />
+            <Play className="w-5 h-5" />
             YouTube
           </a>
         </div>
