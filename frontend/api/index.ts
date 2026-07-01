@@ -123,9 +123,9 @@ app.post('/api/jobs', async (req, res) => {
     }
 
     res.json({ success: true, data: result });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to log service job' });
+    res.status(500).json({ error: error.message || 'Failed to log service job' });
   }
 });
 
@@ -182,9 +182,9 @@ app.get('/api/dashboard-stats', async (req, res) => {
       categoryBreakdown,
       monthlyTrends
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to fetch dashboard stats' });
+    res.status(500).json({ error: error.message || 'Failed to fetch dashboard stats' });
   }
 });
 
@@ -212,9 +212,9 @@ app.get('/api/jobs/history', async (req, res) => {
       
     jobs.sort((a, b) => new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime());
     res.json(jobs);
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to fetch job history' });
+    res.status(500).json({ error: error.message || 'Failed to fetch job history' });
   }
 });
 
