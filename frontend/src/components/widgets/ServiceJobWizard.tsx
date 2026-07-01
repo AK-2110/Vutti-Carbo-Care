@@ -35,7 +35,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      await fetch('/api/jobs', {
+      const response = await fetch('/api/jobs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -50,6 +50,9 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
           revenue: PRICING[vehicleType]
         })
       });
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}`);
+      }
       setSuccess(true);
       onJobLogged();
       setTimeout(() => {
