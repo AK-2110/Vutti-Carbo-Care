@@ -11,7 +11,7 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
   const [isSaving, setIsSaving] = useState(false);
 
   const fetchJobs = () => {
-    fetch('http://localhost:3001/api/jobs/history')
+    fetch('/api/jobs/history')
       .then(res => res.json())
       .then(data => setJobs(data))
       .catch(err => console.error('Failed to fetch jobs', err));
@@ -31,7 +31,7 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      await fetch(`http://localhost:3001/api/jobs/history/${editingJobId}`, {
+      await fetch(`/api/jobs/history/${editingJobId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editForm),

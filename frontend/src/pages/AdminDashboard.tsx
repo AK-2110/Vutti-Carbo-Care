@@ -7,7 +7,7 @@ export default function AdminDashboard({ setActiveTab }: { setActiveTab?: (tab: 
   const [stats, setStats] = useState<any>(null);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/dashboard-stats')
+    fetch('/api/dashboard-stats')
       .then(res => res.json())
       .then(data => setStats(data))
       .catch(err => console.error('Failed to fetch dashboard stats', err));

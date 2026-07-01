@@ -7,7 +7,7 @@ export default function ServiceJobs({ isAdmin }: { isAdmin?: boolean }) {
 
   const fetchJobs = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/jobs/history');
+      const res = await fetch('/api/jobs/history');
       const data = await res.json();
       setJobs(data);
     } catch (err) {

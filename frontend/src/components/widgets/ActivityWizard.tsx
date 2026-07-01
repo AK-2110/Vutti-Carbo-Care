@@ -25,7 +25,7 @@ export default function ActivityWizard({ onActivityLogged }: { onActivityLogged:
       // Final confirm
       setIsSubmitting(true);
       try {
-        await fetch('http://localhost:3001/api/activities', {
+        await fetch('/api/activities', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ category: selectedCategory, value: Number(inputValue) })
