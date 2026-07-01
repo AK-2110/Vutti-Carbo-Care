@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
-import { db } from './db/index';
-import { users, serviceJobs, customers } from './db/schema';
-import { sendWhatsAppMessage } from './services/whatsapp';
+import { db } from './db/index.js';
+import { users, serviceJobs, customers } from './db/schema.js';
+import { sendWhatsAppMessage } from './services/whatsapp.js';
 import { eq } from 'drizzle-orm';
 
 const app = express();
