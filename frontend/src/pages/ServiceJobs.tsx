@@ -53,24 +53,28 @@ export default function ServiceJobs({ isAdmin }: { isAdmin?: boolean }) {
                   <div key={job.id} className="p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 hover:border-brand-default/30 transition-colors">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <h4 className="font-bold text-slate-800 dark:text-white">{job.vehicleModel}</h4>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 font-mono">{job.vehicleId}</p>
+                        <h4 className="font-bold text-slate-800 dark:text-white">
+                          {job.vehicleMake} {job.vehicleModel}
+                        </h4>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                          {job.customerName || 'Unknown'} • {isAdmin ? (job.customerPhone || 'No Phone') : (job.vehicleType)}
+                        </p>
                       </div>
                       <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                        job.engineType === 'diesel' 
+                        job.engineType?.toLowerCase() === 'diesel' 
                           ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' 
                           : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
                       }`}>
-                        {job.engineType}
+                        {job.engineType || 'Petrol'}
                       </span>
                     </div>
                     <div className="flex items-center gap-4 mt-3 text-sm">
                       <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
                         <MapPin className="w-3.5 h-3.5" />
-                        {job.mileage.toLocaleString()} km
+                        {job.customerLocation || 'Location N/A'}
                       </div>
                       <div className="text-brand-default font-semibold flex items-center gap-1 ml-auto">
-                        ↓ {job.preEmission && job.postEmission ? Math.round(((parseFloat(job.preEmission) - parseFloat(job.postEmission)) / parseFloat(job.preEmission)) * 100) : 0}% emissions
+                        {job.revenue ? `₹${job.revenue}` : 'N/A'}
                       </div>
                     </div>
                   </div>
