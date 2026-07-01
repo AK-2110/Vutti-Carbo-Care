@@ -186,6 +186,46 @@ app.get('/api/jobs/history', async (req, res) => {
   }
 });
 
+app.put('/api/jobs/history/:id', async (req, res) => {
+  try {
+    const jobId = parseInt(req.params.id);
+    const { 
+      recordedAt, 
+      customerName, 
+      customerPhone, 
+      customerLocation, 
+      vehicleMake, 
+      vehicleModel, 
+      mileage, 
+      revenue,
+      customerId
+    } = req.body;
+
+    // Update the job
+    db.update(serviceJobs).set({
+      vehicleMake,
+      vehicleModel,
+      mileage: parseInt(mileage),
+      revenue: parseFloat(revenue),
+      recordedAt: new Date(recordedAt)
+    }).where(eq(serviceJobs.id, jobId)).run();
+
+    // Update the customer
+    if (customerId) {
+      db.update(customers).set({
+        name: customerName,
+        phone: customerPhone,
+        location: customerLocation
+      }).where(eq(customers.id, customerId)).run();
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to update job' });
+  }
+});
+
 // Customers CRUD
 app.get('/api/customers', async (req, res) => {
   try {

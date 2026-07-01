@@ -1,17 +1,49 @@
 import { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
+import { Search, Edit2, X, Check } from 'lucide-react';
 
 export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
   const [jobs, setJobs] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState('all');
+  
+  const [editingJobId, setEditingJobId] = useState<number | null>(null);
+  const [editForm, setEditForm] = useState<any>({});
+  const [isSaving, setIsSaving] = useState(false);
 
-  useEffect(() => {
+  const fetchJobs = () => {
     fetch('http://localhost:3001/api/jobs/history')
       .then(res => res.json())
       .then(data => setJobs(data))
       .catch(err => console.error('Failed to fetch jobs', err));
+  };
+
+  useEffect(() => {
+    fetchJobs();
   }, []);
+
+  const handleEdit = (job: any) => {
+    setEditingJobId(job.id);
+    // Format date for the date input (YYYY-MM-DD)
+    const formattedDate = new Date(job.recordedAt).toISOString().split('T')[0];
+    setEditForm({ ...job, recordedAt: formattedDate });
+  };
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      await fetch(`http://localhost:3001/api/jobs/history/${editingJobId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editForm),
+      });
+      setEditingJobId(null);
+      fetchJobs();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const filteredJobs = jobs.filter(job => {
     const term = searchTerm.toLowerCase();
@@ -76,55 +108,166 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
           <table className="w-full text-left text-sm">
             <thead className="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 sticky top-0 border-b border-slate-200 dark:border-slate-800 z-10">
               <tr>
-                <th className="px-6 py-4 font-medium">Date</th>
-                <th className="px-6 py-4 font-medium">Customer Name</th>
-                {isAdmin && <th className="px-6 py-4 font-medium">Phone Number</th>}
-                <th className="px-6 py-4 font-medium">Place (Location)</th>
-                <th className="px-6 py-4 font-medium">Vehicle</th>
-                <th className="px-6 py-4 font-medium">Mileage</th>
-                {isAdmin && <th className="px-6 py-4 font-medium text-right">Revenue</th>}
+                <th className="px-6 py-4 font-medium whitespace-nowrap">Date</th>
+                <th className="px-6 py-4 font-medium whitespace-nowrap">Customer Name</th>
+                {isAdmin && <th className="px-6 py-4 font-medium whitespace-nowrap">Phone Number</th>}
+                <th className="px-6 py-4 font-medium whitespace-nowrap">Place (Location)</th>
+                <th className="px-6 py-4 font-medium whitespace-nowrap">Vehicle</th>
+                <th className="px-6 py-4 font-medium whitespace-nowrap">Mileage</th>
+                {isAdmin && <th className="px-6 py-4 font-medium text-right whitespace-nowrap">Price</th>}
+                {isAdmin && <th className="px-6 py-4 font-medium text-center whitespace-nowrap">Actions</th>}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {filteredJobs.length === 0 ? (
                 <tr>
-                  <td colSpan={isAdmin ? 7 : 6} className="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
+                  <td colSpan={isAdmin ? 8 : 6} className="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
                     No history found.
                   </td>
                 </tr>
               ) : (
-                filteredJobs.map((job) => (
-                  <tr key={job.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
-                    <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
-                      {new Date(job.recordedAt).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4 font-medium text-slate-800 dark:text-white">
-                      {job.customerName || 'Walk-in'}
-                    </td>
-                    {isAdmin && (
+                filteredJobs.map((job) => {
+                  const isEditing = editingJobId === job.id;
+                  
+                  return (
+                    <tr key={job.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
                       <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
-                        {job.customerPhone || 'N/A'}
+                        {isEditing ? (
+                          <input 
+                            type="date"
+                            value={editForm.recordedAt}
+                            onChange={(e) => setEditForm({...editForm, recordedAt: e.target.value})}
+                            className="w-32 px-2 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded focus:ring-1 focus:ring-brand-default focus:border-brand-default"
+                          />
+                        ) : (
+                          new Date(job.recordedAt).toLocaleDateString()
+                        )}
                       </td>
-                    )}
-                    <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
-                      {job.customerLocation || 'N/A'}
-                    </td>
-                    <td className="px-6 py-4 text-slate-600 dark:text-slate-300 flex items-center gap-2">
-                      <span className="font-semibold text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">
-                        {job.vehicleType || 'Car'}
-                      </span>
-                      {job.vehicleMake} {job.vehicleModel}
-                    </td>
-                    <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
-                      {job.mileage?.toLocaleString() || 'N/A'}
-                    </td>
-                    {isAdmin && (
-                      <td className="px-6 py-4 text-right font-medium text-brand-default">
-                        {job.revenue ? `₹${job.revenue}` : 'N/A'}
+                      <td className="px-6 py-4 font-medium text-slate-800 dark:text-white">
+                        {isEditing ? (
+                          <input 
+                            type="text"
+                            value={editForm.customerName}
+                            onChange={(e) => setEditForm({...editForm, customerName: e.target.value})}
+                            className="w-32 px-2 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded focus:ring-1 focus:ring-brand-default focus:border-brand-default"
+                          />
+                        ) : (
+                          job.customerName || 'Walk-in'
+                        )}
                       </td>
-                    )}
-                  </tr>
-                ))
+                      {isAdmin && (
+                        <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
+                          {isEditing ? (
+                            <input 
+                              type="text"
+                              value={editForm.customerPhone}
+                              onChange={(e) => setEditForm({...editForm, customerPhone: e.target.value})}
+                              className="w-32 px-2 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded focus:ring-1 focus:ring-brand-default focus:border-brand-default"
+                            />
+                          ) : (
+                            job.customerPhone || 'N/A'
+                          )}
+                        </td>
+                      )}
+                      <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
+                        {isEditing ? (
+                          <input 
+                            type="text"
+                            value={editForm.customerLocation}
+                            onChange={(e) => setEditForm({...editForm, customerLocation: e.target.value})}
+                            className="w-28 px-2 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded focus:ring-1 focus:ring-brand-default focus:border-brand-default"
+                          />
+                        ) : (
+                          job.customerLocation || 'N/A'
+                        )}
+                      </td>
+                      <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
+                        {isEditing ? (
+                          <div className="flex gap-2 w-48">
+                            <input 
+                              type="text"
+                              placeholder="Make"
+                              value={editForm.vehicleMake}
+                              onChange={(e) => setEditForm({...editForm, vehicleMake: e.target.value})}
+                              className="w-1/2 px-2 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded focus:ring-1 focus:ring-brand-default focus:border-brand-default"
+                            />
+                            <input 
+                              type="text"
+                              placeholder="Model"
+                              value={editForm.vehicleModel}
+                              onChange={(e) => setEditForm({...editForm, vehicleModel: e.target.value})}
+                              className="w-1/2 px-2 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded focus:ring-1 focus:ring-brand-default focus:border-brand-default"
+                            />
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 whitespace-nowrap">
+                              {job.vehicleType || 'Car'}
+                            </span>
+                            <span className="whitespace-nowrap">{job.vehicleMake} {job.vehicleModel}</span>
+                          </div>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
+                        {isEditing ? (
+                          <input 
+                            type="number"
+                            value={editForm.mileage}
+                            onChange={(e) => setEditForm({...editForm, mileage: e.target.value})}
+                            className="w-24 px-2 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded focus:ring-1 focus:ring-brand-default focus:border-brand-default"
+                          />
+                        ) : (
+                          job.mileage?.toLocaleString() || 'N/A'
+                        )}
+                      </td>
+                      {isAdmin && (
+                        <td className="px-6 py-4 text-right font-medium text-brand-default">
+                          {isEditing ? (
+                            <input 
+                              type="number"
+                              value={editForm.revenue}
+                              onChange={(e) => setEditForm({...editForm, revenue: e.target.value})}
+                              className="w-24 px-2 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded focus:ring-1 focus:ring-brand-default focus:border-brand-default text-right ml-auto"
+                            />
+                          ) : (
+                            job.revenue ? `₹${job.revenue}` : 'N/A'
+                          )}
+                        </td>
+                      )}
+                      {isAdmin && (
+                        <td className="px-6 py-4 text-center">
+                          {isEditing ? (
+                            <div className="flex items-center justify-center gap-2">
+                              <button 
+                                onClick={handleSave} 
+                                disabled={isSaving}
+                                className="p-1.5 bg-emerald-100 text-emerald-700 hover:bg-emerald-200 rounded-md transition-colors"
+                                title="Save"
+                              >
+                                <Check className="w-4 h-4" />
+                              </button>
+                              <button 
+                                onClick={() => setEditingJobId(null)} 
+                                className="p-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-md transition-colors"
+                                title="Cancel"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ) : (
+                            <button 
+                              onClick={() => handleEdit(job)}
+                              className="p-1.5 text-slate-400 hover:text-brand-default hover:bg-brand-50 dark:hover:bg-slate-800 rounded-md transition-colors inline-flex justify-center"
+                              title="Edit"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                            </button>
+                          )}
+                        </td>
+                      )}
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
