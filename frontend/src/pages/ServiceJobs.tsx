@@ -9,9 +9,15 @@ export default function ServiceJobs({ isAdmin }: { isAdmin?: boolean }) {
     try {
       const res = await fetch('/api/jobs/history');
       const data = await res.json();
-      setJobs(data);
+      if (Array.isArray(data)) {
+        setJobs(data);
+      } else {
+        console.error('API returned non-array:', data);
+        setJobs([]);
+      }
     } catch (err) {
       console.error('Failed to fetch jobs', err);
+      setJobs([]);
     }
   };
 

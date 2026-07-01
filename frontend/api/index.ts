@@ -3,7 +3,7 @@ import cors from 'cors';
 import { db } from './db/index.js';
 import { users, serviceJobs, customers } from './db/schema.js';
 import { sendWhatsAppMessage } from './services/whatsapp.js';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 
 const app = express();
 app.use(cors());
@@ -12,6 +12,41 @@ app.use(express.json());
 // Initialize dummy user if not exists
 async function initUser() {
   try {
+    // Create tables if they don't exist
+    await db.run(sql`
+      CREATE TABLE IF NOT EXISTS users (
+        id TEXT PRIMARY KEY,
+        full_name TEXT NOT NULL,
+        phone_number TEXT,
+        tier_label TEXT
+      )
+    `);
+    await db.run(sql`
+      CREATE TABLE IF NOT EXISTS customers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        phone TEXT NOT NULL,
+        location TEXT,
+        primary_vehicle TEXT NOT NULL,
+        last_service TEXT,
+        total_spend REAL DEFAULT 0
+      )
+    `);
+    await db.run(sql`
+      CREATE TABLE IF NOT EXISTS service_jobs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id TEXT REFERENCES users(id),
+        customer_id INTEGER REFERENCES customers(id),
+        vehicle_type TEXT NOT NULL DEFAULT 'Car',
+        vehicle_make TEXT NOT NULL,
+        vehicle_model TEXT NOT NULL,
+        engine_type TEXT,
+        mileage INTEGER NOT NULL,
+        revenue REAL,
+        recorded_at INTEGER NOT NULL
+      )
+    `);
+
     const existing = await db.select().from(users).all();
     if (existing.length === 0) {
       await db.insert(users).values({

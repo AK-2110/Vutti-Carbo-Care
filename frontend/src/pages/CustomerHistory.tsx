@@ -13,8 +13,18 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
   const fetchJobs = () => {
     fetch('/api/jobs/history')
       .then(res => res.json())
-      .then(data => setJobs(data))
-      .catch(err => console.error('Failed to fetch jobs', err));
+      .then(data => {
+        if (Array.isArray(data)) {
+          setJobs(data);
+        } else {
+          console.error('API returned non-array:', data);
+          setJobs([]);
+        }
+      })
+      .catch(err => {
+        console.error('Failed to fetch jobs', err);
+        setJobs([]);
+      });
   };
 
   useEffect(() => {
