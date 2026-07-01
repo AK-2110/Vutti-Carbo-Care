@@ -80,36 +80,40 @@ export default function UserDashboard({ setActiveTab }: { setActiveTab?: (tab: s
         <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-xl mx-auto">
           Book your engine carbon service today and experience better mileage, smoother performance, and reduced emissions instantly.
         </p>
-        <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4">
-          <a 
-            href="https://wa.me/918885041661?text=Hello!%20I%20would%20like%20to%20book%20an%20engine%20carbon%20service."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 shadow-lg shadow-emerald-500/20"
-          >
-            <MessageCircle className="w-5 h-5" />
-            WhatsApp
-          </a>
-          
-          <a 
-            href="https://www.instagram.com/vutticarbocare?utm_source=qr&igsh=MXMwczBjaTF6c3Y0NQ=="
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] hover:opacity-90 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 shadow-lg shadow-pink-500/20"
-          >
-            <Camera className="w-5 h-5" />
-            Instagram
-          </a>
+        
+        <a 
+          href="https://wa.me/918885041661?text=Hello!%20I%20would%20like%20to%20book%20an%20engine%20carbon%20service."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-4 px-10 rounded-xl transition-all hover:scale-105 shadow-lg shadow-emerald-500/20 text-lg mb-8"
+        >
+          <MessageCircle className="w-6 h-6" />
+          Book via WhatsApp
+        </a>
 
-          <a 
-            href="https://youtube.com/@vutticarbocare7?si=gbUPYJPdTfjrlXUN"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 shadow-lg shadow-red-500/20"
-          >
-            <Play className="w-5 h-5" />
-            YouTube
-          </a>
+        <div className="pt-8 border-t border-emerald-200 dark:border-emerald-800/50">
+          <h4 className="text-sm font-semibold text-emerald-800 dark:text-emerald-300 mb-4 uppercase tracking-wider">Connect With Us</h4>
+          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4">
+            <a 
+              href="https://www.instagram.com/vutticarbocare?utm_source=qr&igsh=MXMwczBjaTF6c3Y0NQ=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] hover:opacity-90 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 shadow-lg shadow-pink-500/20"
+            >
+              <Camera className="w-5 h-5" />
+              Instagram
+            </a>
+
+            <a 
+              href="https://youtube.com/@vutticarbocare7?si=gbUPYJPdTfjrlXUN"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 shadow-lg shadow-red-500/20"
+            >
+              <Play className="w-5 h-5" />
+              YouTube
+            </a>
+          </div>
         </div>
       </div>
 
