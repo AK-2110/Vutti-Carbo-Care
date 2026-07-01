@@ -73,9 +73,11 @@ export default function ServiceJobs({ isAdmin }: { isAdmin?: boolean }) {
                         <MapPin className="w-3.5 h-3.5" />
                         {job.customerLocation || 'Location N/A'}
                       </div>
-                      <div className="text-brand-default font-semibold flex items-center gap-1 ml-auto">
-                        {job.revenue ? `₹${job.revenue}` : 'N/A'}
-                      </div>
+                      {isAdmin && (
+                        <div className="text-brand-default font-semibold flex items-center gap-1 ml-auto">
+                          {job.revenue ? `₹${job.revenue}` : 'N/A'}
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}
