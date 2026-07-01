@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const client = createClient({
-  url: process.env.TURSO_DATABASE_URL || 'file:sqlite.db',
+  url: process.env.TURSO_DATABASE_URL || 'file:/tmp/sqlite.db',
   authToken: process.env.TURSO_AUTH_TOKEN,
 });
 
