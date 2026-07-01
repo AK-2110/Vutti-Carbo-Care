@@ -28,12 +28,14 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
   const [mileage, setMileage] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleNext = () => setStep((s) => Math.min(s + 1, 1));
   const handlePrev = () => setStep((s) => Math.max(s - 1, 0));
 
   const handleSubmit = async () => {
     setLoading(true);
+    setErrorMsg('');
     try {
       const response = await fetch('/api/jobs', {
         method: 'POST',
@@ -69,8 +71,9 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
         setEngineType('Petrol');
         setMileage('');
       }, 3000);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      setErrorMsg(error.message || 'Failed to submit job');
     } finally {
       setLoading(false);
     }
@@ -255,6 +258,12 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
             </div>
           </div>
         </div>
+
+        {errorMsg && (
+          <div className="mt-4 p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-600 text-sm">
+            {errorMsg}
+          </div>
+        )}
 
         <div className={step === 1 ? 'flex flex-col items-center justify-center animate-in fade-in slide-in-from-right-4 duration-300 min-h-[300px]' : 'hidden'}>
           {success ? (
