@@ -204,7 +204,7 @@ export default function UserDashboard({ setActiveTab }: { setActiveTab?: (tab: s
               Tirupati Region
             </h4>
             <div className="flex flex-wrap gap-2">
-              {['Tirupati', 'Tirumala', 'Srikalahasti', 'Chittoor', 'Madanapalle', 'Pileru', 'Puttur', 'Nagari', 'Sullurpeta', 'Gudur', 'Nellore'].map(loc => (
+              {['Tirupati', 'Tirumala', 'Renigunta', 'Srikalahasti', 'Kodur', 'Pileru', 'Puttur'].map(loc => (
                 <span key={loc} className="px-3 py-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg border border-emerald-200 dark:border-slate-700 shadow-sm">
                   {loc}
                 </span>

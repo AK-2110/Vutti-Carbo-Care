@@ -238,15 +238,11 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
                   <optgroup label="Tirupati Region">
                     <option value="Tirupati">Tirupati</option>
                     <option value="Tirumala">Tirumala</option>
+                    <option value="Renigunta">Renigunta</option>
                     <option value="Srikalahasti">Srikalahasti</option>
-                    <option value="Chittoor">Chittoor</option>
-                    <option value="Madanapalle">Madanapalle</option>
+                    <option value="Kodur">Kodur</option>
                     <option value="Pileru">Pileru</option>
                     <option value="Puttur">Puttur</option>
-                    <option value="Nagari">Nagari</option>
-                    <option value="Sullurpeta">Sullurpeta</option>
-                    <option value="Gudur">Gudur</option>
-                    <option value="Nellore">Nellore</option>
                   </optgroup>
                 </select>
               </div>
