@@ -164,6 +164,20 @@ app.get('/api/dashboard-stats', async (req, res) => {
       value 
     }));
 
+    // Compute Today's jobs
+    const todayJobs = jobs.filter(j => {
+      const d = new Date(j.recordedAt);
+      return d.getDate() === now.getDate() && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    });
+    const totalJobsToday = todayJobs.length;
+
+    // Compute This Year's jobs
+    const thisYearJobs = jobs.filter(j => {
+      const d = new Date(j.recordedAt);
+      return d.getFullYear() === now.getFullYear();
+    });
+    const totalJobsThisYear = thisYearJobs.length;
+
     const trendsMap: Record<string, number> = {};
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     
@@ -190,11 +204,30 @@ app.get('/api/dashboard-stats', async (req, res) => {
     });
     const totalJobsLastMonth = lastMonthJobs.length;
 
+    // Group jobs by year for the trends chart
+    const trendsByYear: Record<string, { name: string, value: number }[]> = {};
+    const years = [...new Set(jobs.map(j => new Date(j.recordedAt).getFullYear()))];
+    if (!years.includes(now.getFullYear())) years.push(now.getFullYear());
+    if (!years.includes(now.getFullYear() - 1)) years.push(now.getFullYear() - 1);
+
+    years.forEach(year => {
+      trendsByYear[year] = monthNames.map((month, idx) => {
+        const count = jobs.filter(j => {
+          const d = new Date(j.recordedAt);
+          return d.getFullYear() === year && d.getMonth() === idx;
+        }).length;
+        return { name: month, value: count };
+      });
+    });
+
     res.json({
+      totalJobsToday,
       totalJobsThisMonth,
       totalJobsLastMonth,
+      totalJobsThisYear,
       categoryBreakdown,
-      monthlyTrends
+      monthlyTrends,
+      trendsByYear
     });
   } catch (error: any) {
     console.error(error);

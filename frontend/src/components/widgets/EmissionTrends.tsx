@@ -1,15 +1,29 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Cell } from 'recharts';
+import { useState } from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Cell, Tooltip } from 'recharts';
 import { TrendingDown, ChevronRight } from 'lucide-react';
 
-export default function EmissionTrends({ monthlyTrends, onViewHistory }: { monthlyTrends: { name: string, value: number }[], onViewHistory?: () => void }) {
-  const chartData = monthlyTrends && monthlyTrends.length > 0 ? monthlyTrends : [
-    { name: "Jan", value: 0 },
-    { name: "Feb", value: 0 },
-    { name: "Mar", value: 0 },
-    { name: "Apr", value: 0 },
-    { name: "May", value: 0 },
-    { name: "Jun", value: 0 },
-  ];
+export default function EmissionTrends({ monthlyTrends, trendsByYear, onViewHistory }: { monthlyTrends: { name: string, value: number }[], trendsByYear?: Record<string, { name: string, value: number }[]>, onViewHistory?: () => void }) {
+  const currentYear = new Date().getFullYear().toString();
+  const availableYears = trendsByYear && Object.keys(trendsByYear).length > 0 ? Object.keys(trendsByYear).sort().reverse() : [currentYear];
+  const [selectedYear, setSelectedYear] = useState<string>(currentYear);
+
+  let chartData = trendsByYear?.[selectedYear] || monthlyTrends;
+  if (!chartData || chartData.length === 0) {
+    chartData = [
+      { name: "Jan", value: 0 },
+      { name: "Feb", value: 0 },
+      { name: "Mar", value: 0 },
+      { name: "Apr", value: 0 },
+      { name: "May", value: 0 },
+      { name: "Jun", value: 0 },
+      { name: "Jul", value: 0 },
+      { name: "Aug", value: 0 },
+      { name: "Sep", value: 0 },
+      { name: "Oct", value: 0 },
+      { name: "Nov", value: 0 },
+      { name: "Dec", value: 0 },
+    ];
+  }
 
   return (
     <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm h-full">
@@ -18,9 +32,14 @@ export default function EmissionTrends({ monthlyTrends, onViewHistory }: { month
           <h3 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-1.5">Monthly Service Volume</h3>
           <p className="text-sm text-slate-500 mt-1">Jobs completed over the last 12 months</p>
         </div>
-        <select className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-default/20">
-          <option>2026</option>
-          <option>2025</option>
+        <select 
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(e.target.value)}
+          className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-default/20"
+        >
+          {availableYears.map(year => (
+            <option key={year} value={year}>{year}</option>
+          ))}
         </select>
       </div>
       
@@ -41,7 +60,12 @@ export default function EmissionTrends({ monthlyTrends, onViewHistory }: { month
               tick={{ fill: '#64748b', fontSize: 12 }}
               label={{ value: 'Jobs', position: 'top', offset: -10, fontSize: 10, fill: '#64748b', dx: 20 }}
             />
-            <Bar dataKey="value" radius={[2, 2, 0, 0]} maxBarSize={30}>
+            <Tooltip
+              cursor={{ fill: 'transparent' }}
+              contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)', padding: '12px' }}
+              labelStyle={{ color: '#64748b', fontWeight: 600, marginBottom: '4px' }}
+            />
+            <Bar dataKey="value" name="Jobs" radius={[4, 4, 0, 0]} maxBarSize={30}>
               {chartData.map((_, index) => (
                 <Cell 
                   key={`cell-${index}`} 

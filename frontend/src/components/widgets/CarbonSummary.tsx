@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Info, TrendingDown, BarChart2 } from 'lucide-react';
 
-export default function CarbonSummary({ totalJobsThisMonth, totalJobsLastMonth, onViewInsights }: { totalJobsThisMonth: number, totalJobsLastMonth: number, onViewInsights?: () => void }) {
-  const [period, setPeriod] = useState<'This Month' | 'Last Month'>('This Month');
+export default function CarbonSummary({ totalJobsToday, totalJobsThisMonth, totalJobsLastMonth, totalJobsThisYear, onViewInsights }: { totalJobsToday: number, totalJobsThisMonth: number, totalJobsLastMonth: number, totalJobsThisYear: number, onViewInsights?: () => void }) {
+  const [period, setPeriod] = useState<'Today' | 'This Month' | 'Last Month' | 'This Year'>('This Month');
   
-  const displayedJobs = period === 'This Month' ? totalJobsThisMonth : totalJobsLastMonth;
+  const displayedJobs = period === 'Today' ? totalJobsToday : 
+                        period === 'This Month' ? totalJobsThisMonth : 
+                        period === 'Last Month' ? totalJobsLastMonth : 
+                        totalJobsThisYear;
 
   return (
     <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm h-full flex flex-col">
@@ -15,11 +18,13 @@ export default function CarbonSummary({ totalJobsThisMonth, totalJobsLastMonth, 
         </h3>
         <select 
           value={period}
-          onChange={(e) => setPeriod(e.target.value as 'This Month' | 'Last Month')}
+          onChange={(e) => setPeriod(e.target.value as 'Today' | 'This Month' | 'Last Month' | 'This Year')}
           className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-default/20"
         >
+          <option value="Today">Today</option>
           <option value="This Month">This Month</option>
           <option value="Last Month">Last Month</option>
+          <option value="This Year">This Year</option>
         </select>
       </div>
 

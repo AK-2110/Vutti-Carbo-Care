@@ -98,13 +98,19 @@ export default function UserDashboard({ setActiveTab }: { setActiveTab?: (tab: s
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-1 min-w-0">
           <CarbonSummary 
+            totalJobsToday={stats?.totalJobsToday || 0}
             totalJobsThisMonth={stats?.totalJobsThisMonth || 0} 
             totalJobsLastMonth={stats?.totalJobsLastMonth || 0}
+            totalJobsThisYear={stats?.totalJobsThisYear || 0}
             onViewInsights={() => setActiveTab?.('insights')} 
           />
         </div>
         <div className="md:col-span-2 min-w-0">
-          <EmissionTrends monthlyTrends={stats?.monthlyTrends || []} onViewHistory={() => setActiveTab?.('history')} />
+          <EmissionTrends 
+            monthlyTrends={stats?.monthlyTrends || []} 
+            trendsByYear={stats?.trendsByYear || {}}
+            onViewHistory={() => setActiveTab?.('history')} 
+          />
         </div>
       </div>
 
