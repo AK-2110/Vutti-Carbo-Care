@@ -43,7 +43,7 @@ export default function LandingPage({ onStartLogin }: LandingPageProps) {
           </button>
           
           <button 
-            onClick={() => onStartLogin('admin')}
+            onClick={() => window.open(`${window.location.origin}?role=admin`, '_blank')}
             className="w-full sm:w-auto bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border-2 border-slate-200 dark:border-slate-700 px-8 py-4 rounded-xl text-lg font-bold transition-all hover:scale-105 shadow-sm flex items-center justify-center gap-3"
           >
             <Settings className="w-5 h-5" />

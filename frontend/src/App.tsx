@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import TopBar from './components/TopBar';
 import AdminDashboard from './pages/AdminDashboard';
@@ -17,6 +17,15 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Auto-detect ?role=admin in URL and go straight to admin login
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('role') === 'admin') {
+      setRequestedRole('admin');
+      setViewMode('login');
+    }
+  }, []);
 
   const handleStartLogin = (role: 'admin' | 'user') => {
     if (role === 'user') {
