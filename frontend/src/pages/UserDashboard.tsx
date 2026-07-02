@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CarbonSummary from '../components/widgets/CarbonSummary';
 import EmissionTrends from '../components/widgets/EmissionTrends';
-import { MessageCircle, X, Star, Camera, Play } from 'lucide-react';
+import { MessageCircle, X, Star, Camera, Play, Gift } from 'lucide-react';
 
 export default function UserDashboard({ setActiveTab }: { setActiveTab?: (tab: string) => void }) {
   const [stats, setStats] = useState<any>(null);
@@ -58,6 +58,40 @@ export default function UserDashboard({ setActiveTab }: { setActiveTab?: (tab: s
         </div>
         <div className="hidden md:block relative z-10 pr-8">
           <img src="/logo.jpg" alt="Vutti Carbo Care Logo" className="w-32 h-32 object-cover object-center bg-white rounded-full shadow-xl border-4 border-white/20" />
+        </div>
+      </div>
+
+      {/* Special Offer Banner */}
+      <div className="bg-gradient-to-r from-pink-500 via-rose-500 to-red-500 rounded-2xl p-6 text-white flex flex-col md:flex-row items-center justify-between shadow-lg relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+        <div className="flex items-center gap-4 relative z-10 mb-4 md:mb-0">
+          <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center shrink-0">
+            <Gift className="w-8 h-8 text-white" />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold mb-1">Special Follower Discount! 🎁</h3>
+            <p className="text-white/90 text-sm sm:text-base">Get a <span className="font-extrabold text-yellow-300">₹100 DISCOUNT</span> on your service by following us.</p>
+          </div>
+        </div>
+        <div className="flex gap-3 relative z-10 w-full md:w-auto">
+          <a 
+            href="https://www.instagram.com/vutticarbocare?utm_source=qr&igsh=MXMwczBjaTF6c3Y0NQ=="
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 md:flex-none inline-flex items-center justify-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border border-white/30 font-semibold py-2.5 px-5 rounded-xl transition-all"
+          >
+            <Camera className="w-5 h-5" />
+            Follow
+          </a>
+          <a 
+            href="https://youtube.com/@vutticarbocare7?si=gbUPYJPdTfjrlXUN"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 md:flex-none inline-flex items-center justify-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border border-white/30 font-semibold py-2.5 px-5 rounded-xl transition-all"
+          >
+            <Play className="w-5 h-5" />
+            Subscribe
+          </a>
         </div>
       </div>
 
