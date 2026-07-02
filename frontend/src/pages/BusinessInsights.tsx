@@ -34,7 +34,10 @@ export default function BusinessInsights({ setActiveTab }: { setActiveTab?: (tab
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <EmissionTrends monthlyTrends={stats?.monthlyTrends || []} />
+        <EmissionTrends 
+          monthlyTrends={stats?.monthlyTrends || []} 
+          trendsByYear={stats?.trendsByYear || {}}
+        />
         <div className="space-y-6 flex flex-col">
           <div className="flex-1">
             <RegionalComparison categoryBreakdown={stats?.categoryBreakdown || []} />
