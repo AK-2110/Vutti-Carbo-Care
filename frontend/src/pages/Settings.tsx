@@ -34,7 +34,7 @@ export default function Settings({ isAdmin }: { isAdmin?: boolean }) {
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Support Email</label>
-              <input type="email" defaultValue="admin@vutticarbocare.com" className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-default/20 focus:border-brand-default" />
+              <input type="email" defaultValue="vutticarbocare@gmail.com" className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-default/20 focus:border-brand-default" />
             </div>
           </div>
         </div>

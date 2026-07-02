@@ -69,7 +69,7 @@ initUser();
 
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
-  if (username === 'admin' && password === 'admin123') {
+  if (username === 'Cnu' && password === 'Cnu@1975') {
     return res.json({ success: true, role: 'admin' });
   } else if (username === 'user' && password === 'user123') {
     return res.json({ success: true, role: 'user' });
