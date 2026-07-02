@@ -26,7 +26,7 @@ export default function Sidebar({ activeTab, setActiveTab, isAdmin, onLogout, is
 
   // Filter items for customers
   const visibleItems = isAdmin ? menuItems : menuItems.filter(item => 
-    ['dashboard', 'jobs', 'history', 'insights'].includes(item.id)
+    ['dashboard', 'history', 'insights'].includes(item.id)
   );
 
   return (
