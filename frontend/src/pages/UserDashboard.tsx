@@ -180,6 +180,39 @@ export default function UserDashboard({ setActiveTab }: { setActiveTab?: (tab: s
         </div>
       </div>
 
+      {/* Service Locations */}
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">Our Service Locations</h3>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mb-6">We provide engine carbon cleaning services across these regions</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-900/10 dark:to-blue-800/5 rounded-xl p-5 border border-blue-100 dark:border-blue-900/30">
+            <h4 className="text-lg font-bold text-blue-800 dark:text-blue-400 mb-4 flex items-center gap-2">
+              <span className="w-2.5 h-2.5 bg-blue-500 rounded-full"></span>
+              Kadapa Region
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {['Kadapa', 'Proddatur', 'Rajampet', 'Jammalamadugu', 'Mydukur', 'Pulivendla', 'Kamalapuram', 'Badvel', 'Rayachoty', 'Lakkireddipalli'].map(loc => (
+                <span key={loc} className="px-3 py-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg border border-blue-200 dark:border-slate-700 shadow-sm">
+                  {loc}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="bg-gradient-to-br from-emerald-50 to-emerald-100/50 dark:from-emerald-900/10 dark:to-emerald-800/5 rounded-xl p-5 border border-emerald-100 dark:border-emerald-900/30">
+            <h4 className="text-lg font-bold text-emerald-800 dark:text-emerald-400 mb-4 flex items-center gap-2">
+              <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span>
+              Tirupati Region
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {['Tirupati', 'Tirumala', 'Srikalahasti', 'Chittoor', 'Madanapalle', 'Pileru', 'Puttur', 'Nagari', 'Sullurpeta', 'Gudur', 'Nellore'].map(loc => (
+                <span key={loc} className="px-3 py-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg border border-emerald-200 dark:border-slate-700 shadow-sm">
+                  {loc}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
       {/* Customer Reviews Section */}
       <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
         <div className="flex items-center justify-between mb-6">
