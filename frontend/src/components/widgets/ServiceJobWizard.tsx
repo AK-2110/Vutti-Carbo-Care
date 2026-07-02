@@ -216,14 +216,39 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
             </div>
             <div className={`grid grid-cols-1 gap-4 ${vehicleType === 'Two Wheeler(up to 200cc)' || vehicleType === 'Two Wheeler(Above 200cc)' ? 'sm:grid-cols-2' : 'sm:grid-cols-3'}`}>
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Location</label>
-                <input 
-                  type="text" 
-                  placeholder="e.g. City" 
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Service Location</label>
+                <select 
                   value={customerLocation}
                   onChange={(e) => setCustomerLocation(e.target.value)}
                   className="w-full px-4 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-default/20 focus:border-brand-default transition-all"
-                />
+                >
+                  <option value="">Select Location</option>
+                  <optgroup label="Kadapa Region">
+                    <option value="Kadapa">Kadapa</option>
+                    <option value="Proddatur">Proddatur</option>
+                    <option value="Rajampet">Rajampet</option>
+                    <option value="Jammalamadugu">Jammalamadugu</option>
+                    <option value="Mydukur">Mydukur</option>
+                    <option value="Pulivendla">Pulivendla</option>
+                    <option value="Kamalapuram">Kamalapuram</option>
+                    <option value="Badvel">Badvel</option>
+                    <option value="Rayachoty">Rayachoty</option>
+                    <option value="Lakkireddipalli">Lakkireddipalli</option>
+                  </optgroup>
+                  <optgroup label="Tirupati Region">
+                    <option value="Tirupati">Tirupati</option>
+                    <option value="Tirumala">Tirumala</option>
+                    <option value="Srikalahasti">Srikalahasti</option>
+                    <option value="Chittoor">Chittoor</option>
+                    <option value="Madanapalle">Madanapalle</option>
+                    <option value="Pileru">Pileru</option>
+                    <option value="Puttur">Puttur</option>
+                    <option value="Nagari">Nagari</option>
+                    <option value="Sullurpeta">Sullurpeta</option>
+                    <option value="Gudur">Gudur</option>
+                    <option value="Nellore">Nellore</option>
+                  </optgroup>
+                </select>
               </div>
               {vehicleType !== 'Two Wheeler(up to 200cc)' && vehicleType !== 'Two Wheeler(Above 200cc)' && (
                 <div>
@@ -315,7 +340,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
           <button 
             onClick={handleNext}
             disabled={
-              (step === 0 && (!customerName || !customerPhone || !vehicleMake || !vehicleModel || !mileage || 
+              (step === 0 && (!customerName || !customerPhone || !customerLocation || !vehicleMake || !vehicleModel || !mileage || 
                 (vehicleMake === 'Other' && !customMake) || 
                 (vehicleModel === 'Other' && !customModel)))
             }
