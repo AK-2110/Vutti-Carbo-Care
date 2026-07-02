@@ -223,27 +223,8 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
                   className="w-full px-4 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-default/20 focus:border-brand-default transition-all"
                 >
                   <option value="">Select Location</option>
-                  <optgroup label="Kadapa Region">
-                    <option value="Kadapa">Kadapa</option>
-                    <option value="Proddatur">Proddatur</option>
-                    <option value="Rajampet">Rajampet</option>
-                    <option value="Jammalamadugu">Jammalamadugu</option>
-                    <option value="Mydukur">Mydukur</option>
-                    <option value="Pulivendla">Pulivendla</option>
-                    <option value="Kamalapuram">Kamalapuram</option>
-                    <option value="Badvel">Badvel</option>
-                    <option value="Rayachoty">Rayachoty</option>
-                    <option value="Lakkireddipalli">Lakkireddipalli</option>
-                  </optgroup>
-                  <optgroup label="Tirupati Region">
-                    <option value="Tirupati">Tirupati</option>
-                    <option value="Tirumala">Tirumala</option>
-                    <option value="Renigunta">Renigunta</option>
-                    <option value="Srikalahasti">Srikalahasti</option>
-                    <option value="Kodur">Kodur</option>
-                    <option value="Pileru">Pileru</option>
-                    <option value="Puttur">Puttur</option>
-                  </optgroup>
+                  <option value="Kadapa">Kadapa</option>
+                  <option value="Tirupati">Tirupati</option>
                 </select>
               </div>
               {vehicleType !== 'Two Wheeler(up to 200cc)' && vehicleType !== 'Two Wheeler(Above 200cc)' && (
