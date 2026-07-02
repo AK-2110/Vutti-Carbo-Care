@@ -53,7 +53,11 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
         })
       });
       if (!response.ok) {
-        throw new Error(`Server returned ${response.status}`);
+        let errData;
+        try {
+          errData = await response.json();
+        } catch (e) {}
+        throw new Error(errData?.error || `Server returned ${response.status}`);
       }
       setSuccess(true);
       onJobLogged();
