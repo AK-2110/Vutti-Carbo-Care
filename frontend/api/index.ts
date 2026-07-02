@@ -52,6 +52,11 @@ async function initUser() {
       ALTER TABLE service_jobs ALTER COLUMN recorded_at TYPE BIGINT
     `).catch(() => {}); // Ignore if already BIGINT
 
+    // Add vehicle_number_plate column to existing tables
+    await db.execute(sql`
+      ALTER TABLE service_jobs ADD COLUMN IF NOT EXISTS vehicle_number_plate TEXT
+    `).catch(() => {});
+
     const existing = await db.select().from(users);
     if (existing.length === 0) {
       await db.insert(users).values({
@@ -79,7 +84,7 @@ app.post('/api/login', (req, res) => {
 
 app.post('/api/jobs', async (req, res) => {
   try {
-    const { customerName, customerPhone, customerLocation, vehicleType, vehicleMake, vehicleModel, engineType, mileage } = req.body;
+    const { customerName, customerPhone, customerLocation, vehicleType, vehicleMake, vehicleModel, vehicleNumberPlate, engineType, mileage } = req.body;
     
     // Check if customer exists by phone
     let customerList = await db.select().from(customers).where(eq(customers.phone, customerPhone));
@@ -113,6 +118,7 @@ app.post('/api/jobs', async (req, res) => {
       vehicleType,
       vehicleMake,
       vehicleModel,
+      vehicleNumberPlate,
       engineType,
       mileage,
       revenue: revenue.toString(),
@@ -206,6 +212,7 @@ app.get('/api/jobs/history', async (req, res) => {
         vehicleType: serviceJobs.vehicleType,
         vehicleMake: serviceJobs.vehicleMake,
         vehicleModel: serviceJobs.vehicleModel,
+        vehicleNumberPlate: serviceJobs.vehicleNumberPlate,
         engineType: serviceJobs.engineType,
         mileage: serviceJobs.mileage,
         revenue: serviceJobs.revenue,
@@ -228,11 +235,12 @@ app.get('/api/jobs/history', async (req, res) => {
 app.put('/api/jobs/history/:id', async (req, res) => {
   try {
     const jobId = parseInt(req.params.id);
-    const { recordedAt, customerName, customerPhone, customerLocation, vehicleMake, vehicleModel, mileage, revenue, customerId } = req.body;
+    const { recordedAt, customerName, customerPhone, customerLocation, vehicleMake, vehicleModel, vehicleNumberPlate, mileage, revenue, customerId } = req.body;
 
     await db.update(serviceJobs).set({
       vehicleMake,
       vehicleModel,
+      vehicleNumberPlate,
       mileage: parseInt(req.body.mileage),
       revenue: req.body.revenue.toString(),
       recordedAt: new Date(req.body.recordedAt).getTime()

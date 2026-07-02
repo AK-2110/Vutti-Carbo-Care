@@ -24,6 +24,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
   const [vehicleModel, setVehicleModel] = useState('');
   const [customMake, setCustomMake] = useState('');
   const [customModel, setCustomModel] = useState('');
+  const [vehicleNumberPlate, setVehicleNumberPlate] = useState('');
   const [engineType, setEngineType] = useState('Petrol');
   const [mileage, setMileage] = useState('');
   const [success, setSuccess] = useState(false);
@@ -47,6 +48,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
           vehicleType,
           vehicleMake: vehicleMake === 'Other' ? customMake : vehicleMake,
           vehicleModel: vehicleModel === 'Other' ? customModel : vehicleModel,
+          vehicleNumberPlate,
           engineType,
           mileage: Number(mileage),
           revenue: PRICING[vehicleType]
@@ -72,6 +74,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
         setVehicleModel('');
         setCustomMake('');
         setCustomModel('');
+        setVehicleNumberPlate('');
         setEngineType('Petrol');
         setMileage('');
       }, 3000);
@@ -214,6 +217,18 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
                 )}
               </div>
             </div>
+            
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Vehicle Number Plate</label>
+              <input 
+                type="text" 
+                placeholder="e.g. AP 04 CX 1234" 
+                value={vehicleNumberPlate}
+                onChange={(e) => setVehicleNumberPlate(e.target.value.toUpperCase())}
+                className="w-full px-4 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-default/20 focus:border-brand-default transition-all uppercase"
+              />
+            </div>
+
             <div className={`grid grid-cols-1 gap-4 ${vehicleType === 'Two Wheeler(up to 200cc)' || vehicleType === 'Two Wheeler(Above 200cc)' ? 'sm:grid-cols-2' : 'sm:grid-cols-3'}`}>
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Service Location</label>
@@ -295,6 +310,10 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
                     </span>
                   </div>
                   <div className="flex justify-between border-b border-slate-200 dark:border-slate-700 pb-2">
+                    <span className="text-slate-500 dark:text-slate-400">Number Plate:</span>
+                    <span className="font-medium text-slate-800 dark:text-white">{vehicleNumberPlate}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-slate-200 dark:border-slate-700 pb-2">
                     <span className="text-slate-500 dark:text-slate-400">Mileage:</span>
                     <span className="font-medium text-slate-800 dark:text-white">{mileage}</span>
                   </div>
@@ -317,7 +336,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
           <button 
             onClick={handleNext}
             disabled={
-              (step === 0 && (!customerName || !customerPhone || !customerLocation || !vehicleMake || !vehicleModel || !mileage || 
+              (step === 0 && (!customerName || !customerPhone || !customerLocation || !vehicleMake || !vehicleModel || !vehicleNumberPlate || !mileage || 
                 (vehicleMake === 'Other' && !customMake) || 
                 (vehicleModel === 'Other' && !customModel)))
             }

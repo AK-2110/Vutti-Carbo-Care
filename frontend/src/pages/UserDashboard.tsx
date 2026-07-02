@@ -151,69 +151,6 @@ export default function UserDashboard({ setActiveTab }: { setActiveTab?: (tab: s
         </div>
       </div>
 
-      {/* Pricing Section */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
-        <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6">Our Services & Pricing</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm border-collapse">
-            <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300">
-              <tr>
-                <th className="px-4 py-3 font-semibold border-b border-slate-200 dark:border-slate-700">S.No</th>
-                <th className="px-4 py-3 font-semibold border-b border-slate-200 dark:border-slate-700">Vehicle Type</th>
-                <th className="px-4 py-3 font-semibold border-b border-slate-200 dark:border-slate-700 text-right">Price</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
-                <td className="px-4 py-3">1</td>
-                <td className="px-4 py-3 font-medium">Two Wheeler (up to 200cc)</td>
-                <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-500">699/-</td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
-                <td className="px-4 py-3">2</td>
-                <td className="px-4 py-3 font-medium">Two Wheeler (Above 200cc)</td>
-                <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-500">799/-</td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
-                <td className="px-4 py-3">3</td>
-                <td className="px-4 py-3 font-medium">Three Wheeler</td>
-                <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-500">999/-</td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
-                <td className="px-4 py-3">4</td>
-                <td className="px-4 py-3 font-medium">Car (up to 1500cc)</td>
-                <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-500">1,599/-</td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
-                <td className="px-4 py-3">5</td>
-                <td className="px-4 py-3 font-medium">Car (above 1500cc)</td>
-                <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-500">1,999/-</td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
-                <td className="px-4 py-3">6</td>
-                <td className="px-4 py-3 font-medium">Van / Tractor / JCB</td>
-                <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-500">2,499/-</td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
-                <td className="px-4 py-3">7</td>
-                <td className="px-4 py-3 font-medium">Bus</td>
-                <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-500">2,999/-</td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
-                <td className="px-4 py-3">8</td>
-                <td className="px-4 py-3 font-medium">Generator</td>
-                <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-500">2,999/-</td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
-                <td className="px-4 py-3">9</td>
-                <td className="px-4 py-3 font-medium">Truck</td>
-                <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-500">2,999/-</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
       <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
         <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">Our Service Locations</h3>
         <p className="text-slate-500 dark:text-slate-400 text-sm mb-6">We provide engine carbon cleaning services across these regions</p>

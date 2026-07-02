@@ -24,6 +24,7 @@ export const serviceJobs = pgTable('service_jobs', {
   vehicleType: text('vehicle_type').notNull().default('Car'),
   vehicleMake: text('vehicle_make').notNull(),
   vehicleModel: text('vehicle_model').notNull(),
+  vehicleNumberPlate: text('vehicle_number_plate'),
   engineType: text('engine_type'),
   mileage: integer('mileage').notNull(),
   revenue: numeric('revenue'),

@@ -73,7 +73,8 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
       (job.customerLocation?.toLowerCase().includes(term)) ||
       (job.vehicleMake?.toLowerCase().includes(term)) ||
       (job.vehicleModel?.toLowerCase().includes(term)) ||
-      (job.vehicleType?.toLowerCase().includes(term))
+      (job.vehicleType?.toLowerCase().includes(term)) ||
+      (job.vehicleNumberPlate?.toLowerCase().includes(term))
     );
 
     if (!matchesSearch) return false;
@@ -133,6 +134,7 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
                 {isAdmin && <th className="px-6 py-4 font-medium whitespace-nowrap">Phone Number</th>}
                 <th className="px-6 py-4 font-medium whitespace-nowrap">Place (Location)</th>
                 <th className="px-6 py-4 font-medium whitespace-nowrap">Vehicle</th>
+                <th className="px-6 py-4 font-medium whitespace-nowrap">Number Plate</th>
                 <th className="px-6 py-4 font-medium whitespace-nowrap">Mileage</th>
                 {isAdmin && <th className="px-6 py-4 font-medium text-right whitespace-nowrap">Price</th>}
                 {isAdmin && <th className="px-6 py-4 font-medium text-center whitespace-nowrap">Actions</th>}
@@ -226,6 +228,18 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
                             </span>
                             <span className="whitespace-nowrap">{job.vehicleMake} {job.vehicleModel}</span>
                           </div>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 text-slate-600 dark:text-slate-300 font-mono text-xs uppercase">
+                        {isEditing ? (
+                          <input 
+                            type="text"
+                            value={editForm.vehicleNumberPlate || ''}
+                            onChange={(e) => setEditForm({...editForm, vehicleNumberPlate: e.target.value.toUpperCase()})}
+                            className="w-24 px-2 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded focus:ring-1 focus:ring-brand-default focus:border-brand-default uppercase"
+                          />
+                        ) : (
+                          job.vehicleNumberPlate || 'N/A'
                         )}
                       </td>
                       <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
