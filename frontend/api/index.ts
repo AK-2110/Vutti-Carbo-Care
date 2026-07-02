@@ -13,7 +13,7 @@ app.use(express.json());
 async function initUser() {
   try {
     // Create tables if they don't exist
-    await db.run(sql`
+    await db.execute(sql`
       CREATE TABLE IF NOT EXISTS users (
         id TEXT PRIMARY KEY,
         full_name TEXT NOT NULL,
@@ -21,20 +21,20 @@ async function initUser() {
         tier_label TEXT
       )
     `);
-    await db.run(sql`
+    await db.execute(sql`
       CREATE TABLE IF NOT EXISTS customers (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         name TEXT NOT NULL,
         phone TEXT NOT NULL,
         location TEXT,
         primary_vehicle TEXT NOT NULL,
         last_service TEXT,
-        total_spend REAL DEFAULT 0
+        total_spend NUMERIC DEFAULT 0
       )
     `);
-    await db.run(sql`
+    await db.execute(sql`
       CREATE TABLE IF NOT EXISTS service_jobs (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         user_id TEXT REFERENCES users(id),
         customer_id INTEGER REFERENCES customers(id),
         vehicle_type TEXT NOT NULL DEFAULT 'Car',
@@ -42,19 +42,19 @@ async function initUser() {
         vehicle_model TEXT NOT NULL,
         engine_type TEXT,
         mileage INTEGER NOT NULL,
-        revenue REAL,
+        revenue NUMERIC,
         recorded_at INTEGER NOT NULL
       )
     `);
 
-    const existing = await db.select().from(users).all();
+    const existing = await db.select().from(users);
     if (existing.length === 0) {
       await db.insert(users).values({
         id: 'user-1',
         fullName: 'Vutti Admin',
         phoneNumber: '+1234567890', 
         tierLabel: 'Shop Manager'
-      }).run();
+      });
     }
   } catch(e) {
     console.error("DB Initialization error", e);
@@ -77,30 +77,32 @@ app.post('/api/jobs', async (req, res) => {
     const { customerName, customerPhone, customerLocation, vehicleType, vehicleMake, vehicleModel, engineType, mileage } = req.body;
     
     // Check if customer exists by phone
-    let customer = await db.select().from(customers).where(eq(customers.phone, customerPhone)).get();
+    let customerList = await db.select().from(customers).where(eq(customers.phone, customerPhone));
+    let customer = customerList[0];
     
     if (!customer) {
       // Create new customer
-      customer = await db.insert(customers).values({
+      const newCustomers = await db.insert(customers).values({
         name: customerName,
         phone: customerPhone,
         location: customerLocation,
         primaryVehicle: `${vehicleMake} ${vehicleModel}`,
         lastService: new Date().toISOString(),
-        totalSpend: 0
-      }).returning().get();
+        totalSpend: '0'
+      }).returning();
+      customer = newCustomers[0];
     } else {
       // Update existing customer's last service date and location if provided
       await db.update(customers).set({
         lastService: new Date().toISOString(),
         location: customerLocation || customer.location
-      }).where(eq(customers.id, customer.id)).run();
+      }).where(eq(customers.id, customer.id));
     }
 
     // Get revenue from request or default to 150
     const revenue = req.body.revenue || 150;
 
-    const result = await db.insert(serviceJobs).values({
+    const newJobs = await db.insert(serviceJobs).values({
       userId: 'user-1',
       customerId: customer.id,
       vehicleType,
@@ -108,14 +110,15 @@ app.post('/api/jobs', async (req, res) => {
       vehicleModel,
       engineType,
       mileage,
-      revenue,
-      recordedAt: new Date(),
-    }).returning().get();
+      revenue: revenue.toString(),
+      recordedAt: Date.now(), // Store as integer timestamp directly to avoid timezone/Date conversion issues
+    }).returning();
+    const result = newJobs[0];
 
     // Update customer total spend
     await db.update(customers).set({
-      totalSpend: (customer.totalSpend || 0) + revenue
-    }).where(eq(customers.id, customer.id)).run();
+      totalSpend: sql`${customers.totalSpend} + ${revenue}`
+    }).where(eq(customers.id, customer.id));
 
     if (customer.phone) {
       const message = `🚗 Vutti Carbo Care Update:\nHi ${customer.name}, the Engine Carbon Cleaning for your ${vehicleMake} ${vehicleModel} is complete!\nYour engine is now running smoother and cleaner! Thank you for choosing Vutti.`;
@@ -131,7 +134,7 @@ app.post('/api/jobs', async (req, res) => {
 
 app.get('/api/dashboard-stats', async (req, res) => {
   try {
-    const jobs = await db.select().from(serviceJobs).all();
+    const jobs = await db.select().from(serviceJobs);
     
     const now = new Date();
     const currentMonthJobs = jobs.filter(j => {
@@ -207,8 +210,7 @@ app.get('/api/jobs/history', async (req, res) => {
         customerLocation: customers.location,
       })
       .from(serviceJobs)
-      .leftJoin(customers, eq(serviceJobs.customerId, customers.id))
-      .all();
+      .leftJoin(customers, eq(serviceJobs.customerId, customers.id));
       
     jobs.sort((a, b) => new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime());
     res.json(jobs);
@@ -229,14 +231,14 @@ app.put('/api/jobs/history/:id', async (req, res) => {
       mileage: parseInt(mileage),
       revenue: parseFloat(revenue),
       recordedAt: new Date(recordedAt)
-    }).where(eq(serviceJobs.id, jobId)).run();
+    }).where(eq(serviceJobs.id, jobId));
 
     if (customerId) {
       await db.update(customers).set({
         name: customerName,
         phone: customerPhone,
         location: customerLocation
-      }).where(eq(customers.id, customerId)).run();
+      }).where(eq(customers.id, customerId));
     }
 
     res.json({ success: true });
@@ -249,7 +251,7 @@ app.put('/api/jobs/history/:id', async (req, res) => {
 // Customers CRUD
 app.get('/api/customers', async (req, res) => {
   try {
-    const allCustomers = await db.select().from(customers).all();
+    const allCustomers = await db.select().from(customers);
     res.json(allCustomers);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch customers' });
@@ -259,10 +261,10 @@ app.get('/api/customers', async (req, res) => {
 app.post('/api/customers', async (req, res) => {
   try {
     const { name, phone, primaryVehicle } = req.body;
-    const newCustomer = await db.insert(customers).values({
-      name, phone, primaryVehicle, lastService: new Date().toISOString(), totalSpend: 0,
-    }).returning().get();
-    res.json(newCustomer);
+    const newCustomers = await db.insert(customers).values({
+      name, phone, primaryVehicle, lastService: new Date().toISOString(), totalSpend: '0',
+    }).returning();
+    res.json(newCustomers[0]);
   } catch (error) {
     res.status(500).json({ error: 'Failed to create customer' });
   }
@@ -274,8 +276,8 @@ app.put('/api/customers/:id', async (req, res) => {
     const { name, phone, primaryVehicle } = req.body;
     const updated = await db.update(customers).set({
       name, phone, primaryVehicle,
-    }).where(eq(customers.id, id)).returning().get();
-    res.json(updated);
+    }).where(eq(customers.id, id)).returning();
+    res.json(updated[0]);
   } catch (error) {
     res.status(500).json({ error: 'Failed to update customer' });
   }
@@ -284,7 +286,7 @@ app.put('/api/customers/:id', async (req, res) => {
 app.delete('/api/customers/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    await db.delete(customers).where(eq(customers.id, id)).run();
+    await db.delete(customers).where(eq(customers.id, id));
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete customer' });

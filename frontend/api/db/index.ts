@@ -1,13 +1,5 @@
-import { drizzle } from 'drizzle-orm/libsql';
-import { createClient } from '@libsql/client';
+import { drizzle } from 'drizzle-orm/vercel-postgres';
+import { sql } from '@vercel/postgres';
 import * as schema from './schema.js';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const client = createClient({
-  url: process.env.TURSO_DATABASE_URL || 'file:/tmp/sqlite.db',
-  authToken: process.env.TURSO_AUTH_TOKEN,
-});
-
-export const db = drizzle(client, { schema });
+export const db = drizzle(sql, { schema });
