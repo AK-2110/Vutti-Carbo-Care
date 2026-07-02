@@ -47,6 +47,11 @@ async function initUser() {
       )
     `);
 
+    // Fix existing table if recorded_at was created as INTEGER instead of BIGINT
+    await db.execute(sql`
+      ALTER TABLE service_jobs ALTER COLUMN recorded_at TYPE BIGINT
+    `).catch(() => {}); // Ignore if already BIGINT
+
     const existing = await db.select().from(users);
     if (existing.length === 0) {
       await db.insert(users).values({
