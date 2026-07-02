@@ -1,4 +1,4 @@
-import { pgTable, serial, text, integer, numeric } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, integer, numeric, bigint } from 'drizzle-orm/pg-core';
 
 export const users = pgTable('users', {
   id: text('id').primaryKey(), // We use text because the app sets it to 'user-1'
@@ -27,5 +27,5 @@ export const serviceJobs = pgTable('service_jobs', {
   engineType: text('engine_type'),
   mileage: integer('mileage').notNull(),
   revenue: numeric('revenue'),
-  recordedAt: integer('recorded_at').notNull(), // keeping as integer for unix timestamp to minimize code changes
+  recordedAt: bigint('recorded_at', { mode: 'number' }).notNull(), // postgres integer is 32-bit (overflows for Date.now()), need bigint
 });

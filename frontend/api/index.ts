@@ -43,7 +43,7 @@ async function initUser() {
         engine_type TEXT,
         mileage INTEGER NOT NULL,
         revenue NUMERIC,
-        recorded_at INTEGER NOT NULL
+        recorded_at BIGINT NOT NULL
       )
     `);
 
@@ -228,9 +228,9 @@ app.put('/api/jobs/history/:id', async (req, res) => {
     await db.update(serviceJobs).set({
       vehicleMake,
       vehicleModel,
-      mileage: parseInt(mileage),
-      revenue: parseFloat(revenue),
-      recordedAt: new Date(recordedAt)
+      mileage: parseInt(req.body.mileage),
+      revenue: req.body.revenue.toString(),
+      recordedAt: new Date(req.body.recordedAt).getTime()
     }).where(eq(serviceJobs.id, jobId));
 
     if (customerId) {
