@@ -253,6 +253,18 @@ app.put('/api/jobs/history/:id', async (req, res) => {
   }
 });
 
+// Delete a service job
+app.delete('/api/jobs/history/:id', async (req, res) => {
+  try {
+    const jobId = parseInt(req.params.id);
+    await db.delete(serviceJobs).where(eq(serviceJobs.id, jobId));
+    res.json({ success: true });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ error: error.message || 'Failed to delete job' });
+  }
+});
+
 // Customers CRUD
 app.get('/api/customers', async (req, res) => {
   try {

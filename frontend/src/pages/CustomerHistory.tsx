@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, Edit2, X, Check } from 'lucide-react';
+import { Search, Edit2, X, Check, Trash2 } from 'lucide-react';
 
 export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
   const [jobs, setJobs] = useState<any[]>([]);
@@ -52,6 +52,16 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
       console.error(error);
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleDelete = async (jobId: number) => {
+    if (!window.confirm('Are you sure you want to delete this record? This cannot be undone.')) return;
+    try {
+      await fetch(`/api/jobs/history/${jobId}`, { method: 'DELETE' });
+      fetchJobs();
+    } catch (error) {
+      console.error('Failed to delete job', error);
     }
   };
 
@@ -265,13 +275,22 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
                               </button>
                             </div>
                           ) : (
-                            <button 
-                              onClick={() => handleEdit(job)}
-                              className="p-1.5 text-slate-400 hover:text-brand-default hover:bg-brand-50 dark:hover:bg-slate-800 rounded-md transition-colors inline-flex justify-center"
-                              title="Edit"
-                            >
-                              <Edit2 className="w-4 h-4" />
-                            </button>
+                            <div className="flex items-center justify-center gap-1">
+                              <button 
+                                onClick={() => handleEdit(job)}
+                                className="p-1.5 text-slate-400 hover:text-brand-default hover:bg-brand-50 dark:hover:bg-slate-800 rounded-md transition-colors inline-flex justify-center"
+                                title="Edit"
+                              >
+                                <Edit2 className="w-4 h-4" />
+                              </button>
+                              <button 
+                                onClick={() => handleDelete(job.id)}
+                                className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-md transition-colors inline-flex justify-center"
+                                title="Delete"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
                           )}
                         </td>
                       )}
