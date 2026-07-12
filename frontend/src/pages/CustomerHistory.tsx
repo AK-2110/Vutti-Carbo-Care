@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, Edit2, X, Check, Trash2 } from 'lucide-react';
+import { Search, Download, Trash2, Edit2, Save, X, Star } from 'lucide-react';
 
 export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
   const [jobs, setJobs] = useState<any[]>([]);
@@ -257,15 +257,40 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
                       </td>
                       <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
                         {isEditing ? (
-                          <input 
-                            type="text"
-                            value={editForm.review || ''}
-                            onChange={(e) => setEditForm({...editForm, review: e.target.value})}
-                            className="w-24 px-2 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded focus:ring-1 focus:ring-brand-default focus:border-brand-default"
-                          />
+                          <div className="flex flex-col gap-1">
+                            <input 
+                              type="number"
+                              min="0"
+                              max="5"
+                              value={editForm.rating || 0}
+                              onChange={(e) => setEditForm({...editForm, rating: parseInt(e.target.value) || 0})}
+                              className="w-24 px-2 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded focus:ring-1 focus:ring-brand-default focus:border-brand-default text-xs"
+                              placeholder="Rating 0-5"
+                            />
+                            <input 
+                              type="text"
+                              value={editForm.review || ''}
+                              onChange={(e) => setEditForm({...editForm, review: e.target.value})}
+                              className="w-24 px-2 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded focus:ring-1 focus:ring-brand-default focus:border-brand-default"
+                              placeholder="Review"
+                            />
+                          </div>
                         ) : (
-                          <div className="max-w-[150px] truncate" title={job.review || ''}>
-                            {job.review || '-'}
+                          <div className="flex flex-col gap-1">
+                            {job.rating > 0 && (
+                              <div className="flex items-center">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <Star 
+                                    key={star} 
+                                    className={`w-3 h-3 ${job.rating >= star ? 'text-yellow-400' : 'text-slate-200 dark:text-slate-700'}`} 
+                                    fill={job.rating >= star ? 'currentColor' : 'none'} 
+                                  />
+                                ))}
+                              </div>
+                            )}
+                            <div className="max-w-[150px] truncate" title={job.review || ''}>
+                              {job.review || '-'}
+                            </div>
                           </div>
                         )}
                       </td>

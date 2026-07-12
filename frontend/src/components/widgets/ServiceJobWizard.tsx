@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Car, FileCheck, CheckCircle2, ChevronRight } from 'lucide-react';
+import { Car, FileCheck, CheckCircle2, ChevronRight, Star } from 'lucide-react';
 import { vehicleData, type VehicleType } from '../../data/vehicles';
 
 const PRICING: Record<VehicleType, number> = {
@@ -24,6 +24,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
   const [engineType, setEngineType] = useState('Petrol');
   const [mileage, setMileage] = useState('');
   const [review, setReview] = useState('');
+  const [rating, setRating] = useState(0);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -49,6 +50,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
           engineType,
           mileage: Number(mileage),
           review,
+          rating,
           revenue: PRICING[vehicleType]
         })
       });
@@ -275,6 +277,19 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Customer Review (Optional)</label>
+                <div className="flex items-center gap-2 mb-2">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setRating(star)}
+                      className={`p-1 transition-colors ${rating >= star ? 'text-yellow-400' : 'text-slate-300 dark:text-slate-600'}`}
+                    >
+                      <Star className="w-6 h-6" fill={rating >= star ? 'currentColor' : 'none'} />
+                    </button>
+                  ))}
+                  {rating > 0 && <span className="text-sm text-slate-500 ml-2">{rating} out of 5 stars</span>}
+                </div>
                 <textarea 
                   placeholder="e.g. Engine runs much smoother now!" 
                   value={review}

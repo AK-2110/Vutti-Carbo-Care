@@ -30,4 +30,5 @@ export const serviceJobs = pgTable('service_jobs', {
   revenue: numeric('revenue'),
   recordedAt: bigint('recorded_at', { mode: 'number' }).notNull(), // postgres integer is 32-bit (overflows for Date.now()), need bigint
   review: text('review'),
+  rating: integer('rating'),
 });

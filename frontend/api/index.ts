@@ -62,6 +62,11 @@ async function initUser() {
       ALTER TABLE service_jobs ADD COLUMN IF NOT EXISTS review TEXT
     `).catch(() => {});
 
+    // Add rating column to existing tables
+    await db.execute(sql`
+      ALTER TABLE service_jobs ADD COLUMN IF NOT EXISTS rating INTEGER
+    `).catch(() => {});
+
     const existing = await db.select().from(users);
     if (existing.length === 0) {
       await db.insert(users).values({
@@ -89,7 +94,7 @@ app.post('/api/login', (req, res) => {
 
 app.post('/api/jobs', async (req, res) => {
   try {
-    const { customerName, customerPhone, customerLocation, vehicleType, vehicleMake, vehicleModel, vehicleNumberPlate, engineType, mileage, review } = req.body;
+    const { customerName, customerPhone, customerLocation, vehicleType, vehicleMake, vehicleModel, vehicleNumberPlate, engineType, mileage, review, rating } = req.body;
     
     // Check if customer exists by phone
     let customerList = await db.select().from(customers).where(eq(customers.phone, customerPhone));
@@ -129,6 +134,7 @@ app.post('/api/jobs', async (req, res) => {
       revenue: revenue.toString(),
       recordedAt: Date.now(), // Store as integer timestamp directly to avoid timezone/Date conversion issues
       review,
+      rating,
     }).returning();
     const result = newJobs[0];
 
@@ -257,6 +263,7 @@ app.get('/api/jobs/history', async (req, res) => {
         revenue: serviceJobs.revenue,
         recordedAt: serviceJobs.recordedAt,
         review: serviceJobs.review,
+        rating: serviceJobs.rating,
         customerName: customers.name,
         customerPhone: customers.phone,
         customerLocation: customers.location,
@@ -275,7 +282,7 @@ app.get('/api/jobs/history', async (req, res) => {
 app.put('/api/jobs/history/:id', async (req, res) => {
   try {
     const jobId = parseInt(req.params.id);
-    const { recordedAt, customerName, customerPhone, customerLocation, vehicleMake, vehicleModel, vehicleNumberPlate, mileage, revenue, customerId, review } = req.body;
+    const { recordedAt, customerName, customerPhone, customerLocation, vehicleMake, vehicleModel, vehicleNumberPlate, mileage, revenue, customerId, review, rating } = req.body;
 
     await db.update(serviceJobs).set({
       vehicleMake,
@@ -284,7 +291,8 @@ app.put('/api/jobs/history/:id', async (req, res) => {
       mileage: parseInt(req.body.mileage),
       revenue: req.body.revenue.toString(),
       recordedAt: new Date(req.body.recordedAt).getTime(),
-      review
+      review,
+      rating
     }).where(eq(serviceJobs.id, jobId));
 
     if (customerId) {
