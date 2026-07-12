@@ -291,12 +291,23 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
                   {rating > 0 && <span className="text-sm text-slate-500 ml-2">{rating} out of 5 stars</span>}
                 </div>
                 <div className="flex flex-wrap gap-2 mb-3">
-                  {["Engine runs smoother", "Reduced vibrations", "More pickup", "Less noise", "Excellent service"].map((preset) => (
+                  {[
+                    "The engine runs significantly smoother after the carbon cleaning.",
+                    "I noticed a massive improvement in pickup and acceleration.",
+                    "Engine vibrations have completely disappeared.",
+                    "The engine noise is much lower and idles perfectly now.",
+                    "Fuel efficiency has improved noticeably since the treatment.",
+                    "The throttle response is much sharper and more immediate.",
+                    "Black smoke from the exhaust has completely stopped.",
+                    "Very satisfied with the quick and professional service.",
+                    "Highly recommend this for anyone experiencing sluggish engine performance.",
+                    "The vehicle feels brand new again after the service."
+                  ].map((preset) => (
                     <button
                       key={preset}
                       type="button"
-                      onClick={() => setReview((prev) => prev ? `${prev}, ${preset}` : preset)}
-                      className="px-3 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-full transition-colors border border-slate-200 dark:border-slate-600"
+                      onClick={() => setReview((prev) => prev ? `${prev} ${preset}` : preset)}
+                      className="px-3 py-1.5 text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg transition-colors border border-slate-200 dark:border-slate-600 text-left"
                     >
                       + {preset}
                     </button>
