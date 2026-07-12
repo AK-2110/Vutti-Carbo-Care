@@ -3,15 +3,12 @@ import { Car, FileCheck, CheckCircle2, ChevronRight } from 'lucide-react';
 import { vehicleData, type VehicleType } from '../../data/vehicles';
 
 const PRICING: Record<VehicleType, number> = {
-  "Two Wheeler(up to 200cc)": 699,
-  "Two Wheeler(Above 200cc)": 799,
+  "Two Wheeler": 799,
   "Three Wheeler": 999,
-  "Car(up to 1500cc)": 1599,
-  "Car(above 1500cc)": 1999,
+  "Car": 1999,
   "Van/Tractor/JCB": 2499,
-  "Bus": 2999,
-  "Generator": 2999,
-  "Truck": 2999
+  "Bus / Truck": 3499,
+  "Generator": 2999
 };
 
 export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => void }) {
@@ -19,7 +16,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerLocation, setCustomerLocation] = useState('');
-  const [vehicleType, setVehicleType] = useState<VehicleType>('Car(up to 1500cc)');
+  const [vehicleType, setVehicleType] = useState<VehicleType>('Car');
   const [vehicleMake, setVehicleMake] = useState('');
   const [vehicleModel, setVehicleModel] = useState('');
   const [customMake, setCustomMake] = useState('');
@@ -69,7 +66,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
         setCustomerName('');
         setCustomerPhone('');
         setCustomerLocation('');
-        setVehicleType('Car(up to 1500cc)');
+        setVehicleType('Car');
         setVehicleMake('');
         setVehicleModel('');
         setCustomMake('');
@@ -139,7 +136,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
                   setVehicleType(newType);
                   setEngineType(
                     newType.includes('Two Wheeler') ? '' : 
-                    newType === 'Truck' || newType === 'Bus' || newType === 'Van/Tractor/JCB' ? 'Diesel' : 'Petrol'
+                    newType === 'Bus / Truck' || newType === 'Van/Tractor/JCB' ? 'Diesel' : 'Petrol'
                   );
                   setVehicleMake('');
                   setVehicleModel('');
@@ -229,7 +226,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
               />
             </div>
 
-            <div className={`grid grid-cols-1 gap-4 ${vehicleType === 'Two Wheeler(up to 200cc)' || vehicleType === 'Two Wheeler(Above 200cc)' ? 'sm:grid-cols-2' : 'sm:grid-cols-3'}`}>
+            <div className={`grid grid-cols-1 gap-4 ${vehicleType === 'Two Wheeler' ? 'sm:grid-cols-2' : 'sm:grid-cols-3'}`}>
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Service Location</label>
                 <select 
@@ -242,7 +239,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
                   <option value="Tirupati">Tirupati</option>
                 </select>
               </div>
-              {vehicleType !== 'Two Wheeler(up to 200cc)' && vehicleType !== 'Two Wheeler(Above 200cc)' && (
+              {vehicleType !== 'Two Wheeler' && (
                 <div>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Engine Type</label>
                   <select 
@@ -250,7 +247,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
                     onChange={(e) => setEngineType(e.target.value)}
                     className="w-full px-4 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-default/20 focus:border-brand-default transition-all"
                   >
-                    {vehicleType === 'Truck' || vehicleType === 'Bus' || vehicleType === 'Van/Tractor/JCB' ? (
+                    {vehicleType === 'Bus / Truck' || vehicleType === 'Van/Tractor/JCB' ? (
                       <>
                         <option value="Diesel">Diesel</option>
                         <option value="Petrol">Petrol</option>
