@@ -1,9 +1,11 @@
-import { Car, Zap, Activity, ChevronRight } from 'lucide-react';
+import { Car, Bike, Truck, ChevronRight, Circle } from 'lucide-react';
 
 const iconMap: Record<string, any> = {
-  'Standard Clean': { icon: Car, color: 'text-blue-500 dark:text-blue-400', bg: 'bg-blue-100 dark:bg-blue-900/30' },
-  'DPF Clean': { icon: Activity, color: 'text-purple-500 dark:text-purple-400', bg: 'bg-purple-100 dark:bg-purple-900/30' },
-  'Deep Clean': { icon: Zap, color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-100 dark:bg-emerald-900/30' },
+  'Two Wheeler': { icon: Bike, color: 'text-blue-500 dark:text-blue-400', bg: 'bg-blue-100 dark:bg-blue-900/30' },
+  'Three Wheeler': { icon: Circle, color: 'text-orange-500 dark:text-orange-400', bg: 'bg-orange-100 dark:bg-orange-900/30' },
+  'Car': { icon: Car, color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-100 dark:bg-emerald-900/30' },
+  'Van / Tractor / JCB / Generator': { icon: Truck, color: 'text-purple-500 dark:text-purple-400', bg: 'bg-purple-100 dark:bg-purple-900/30' },
+  'Bus / Truck': { icon: Truck, color: 'text-rose-500 dark:text-rose-400', bg: 'bg-rose-100 dark:bg-rose-900/30' },
 };
 
 export default function EmissionBreakdown({ categoryBreakdown, onViewAll }: { categoryBreakdown: { category: string, value: number }[], onViewAll?: () => void }) {
@@ -23,7 +25,7 @@ export default function EmissionBreakdown({ categoryBreakdown, onViewAll }: { ca
       <div className="flex items-center justify-between gap-4 overflow-x-auto pb-2 scrollbar-hide">
         {categoryBreakdown.length === 0 && <p className="text-sm text-slate-400 dark:text-slate-500">No data available this month.</p>}
         {categoryBreakdown.map((item) => {
-          const config = iconMap[item.category] || iconMap['Standard Clean'];
+          const config = iconMap[item.category] || iconMap['Car'];
           const Icon = config.icon;
           const percentage = total > 0 ? Math.round((item.value / total) * 100) : 0;
           return (
