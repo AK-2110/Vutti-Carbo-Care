@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, Download, Trash2, Edit2, Save, X, Star, Check } from 'lucide-react';
+import { Search, Trash2, Edit2, X, Star, Check } from 'lucide-react';
 
 export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
   const [jobs, setJobs] = useState<any[]>([]);
