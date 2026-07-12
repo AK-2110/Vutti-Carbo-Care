@@ -136,6 +136,7 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
                 <th className="px-6 py-4 font-medium whitespace-nowrap">Vehicle</th>
                 <th className="px-6 py-4 font-medium whitespace-nowrap">Number Plate</th>
                 <th className="px-6 py-4 font-medium whitespace-nowrap">Mileage</th>
+                <th className="px-6 py-4 font-medium whitespace-nowrap">Review</th>
                 {isAdmin && <th className="px-6 py-4 font-medium text-right whitespace-nowrap">Price</th>}
                 {isAdmin && <th className="px-6 py-4 font-medium text-center whitespace-nowrap">Actions</th>}
               </tr>
@@ -143,7 +144,7 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {filteredJobs.length === 0 ? (
                 <tr>
-                  <td colSpan={isAdmin ? 8 : 6} className="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
+                  <td colSpan={isAdmin ? 10 : 7} className="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
                     No history found.
                   </td>
                 </tr>
@@ -252,6 +253,20 @@ export default function CustomerHistory({ isAdmin }: { isAdmin?: boolean }) {
                           />
                         ) : (
                           job.mileage?.toLocaleString() || 'N/A'
+                        )}
+                      </td>
+                      <td className="px-6 py-4 text-slate-600 dark:text-slate-300">
+                        {isEditing ? (
+                          <input 
+                            type="text"
+                            value={editForm.review || ''}
+                            onChange={(e) => setEditForm({...editForm, review: e.target.value})}
+                            className="w-24 px-2 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded focus:ring-1 focus:ring-brand-default focus:border-brand-default"
+                          />
+                        ) : (
+                          <div className="max-w-[150px] truncate" title={job.review || ''}>
+                            {job.review || '-'}
+                          </div>
                         )}
                       </td>
                       {isAdmin && (

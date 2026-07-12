@@ -23,6 +23,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
   const [vehicleNumberPlate, setVehicleNumberPlate] = useState('');
   const [engineType, setEngineType] = useState('Petrol');
   const [mileage, setMileage] = useState('');
+  const [review, setReview] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -47,6 +48,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
           vehicleNumberPlate,
           engineType,
           mileage: Number(mileage),
+          review,
           revenue: PRICING[vehicleType]
         })
       });
@@ -270,6 +272,15 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
                   onChange={(e) => setMileage(e.target.value)}
                   className="w-full px-4 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-default/20 focus:border-brand-default transition-all"
                 />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Customer Review (Optional)</label>
+                <textarea 
+                  placeholder="e.g. Engine runs much smoother now!" 
+                  value={review}
+                  onChange={(e) => setReview(e.target.value)}
+                  className="w-full px-4 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-default/20 focus:border-brand-default transition-all resize-y min-h-[100px]"
+                ></textarea>
               </div>
             </div>
           </div>
