@@ -38,8 +38,8 @@ export const vehicleData = {
     "Audi": ["A4", "A6", "Q3", "Q5", "Q7"],
     "Other": ["Other"]
   },
-  "Van/Tractor/JCB": {
-    "Mahindra": ["Arjun", "Yuvo", "Jivo", "Novo", "Supro", "Jeeto"],
+  "Van / Tractor / JCB / Generator": {
+    "Mahindra": ["Arjun", "Yuvo", "Jivo", "Novo", "Supro", "Jeeto", "Powerol"],
     "John Deere": ["5E", "5M", "6M", "6R"],
     "Sonalika": ["Sikander", "Tiger", "Mahabali"],
     "New Holland": ["Excel", "Tx", "Simba"],
@@ -48,6 +48,10 @@ export const vehicleData = {
     "Maruti Suzuki": ["Eeco", "Omni"],
     "Tata": ["Magic", "Winger"],
     "Force": ["Traveller", "Cruiser", "Toofan"],
+    "Honda": ["Portable", "Inverter"],
+    "Kirloskar": ["Green", "Chota Chilli"],
+    "Cummins": ["Power", "QSK"],
+    "Caterpillar": ["Diesel Genset", "Gas Genset"],
     "Other": ["Other"]
   },
   "Bus / Truck": {
@@ -58,14 +62,6 @@ export const vehicleData = {
     "Mercedes-Benz": ["Tourismo", "Citaro", "Actros", "Arocs", "Atego"],
     "BharatBenz": ["1015R", "1217C", "1923C", "2823C"],
     "Eicher": ["Pro 2000", "Pro 3000", "Pro 6000", "Pro 8000"],
-    "Other": ["Other"]
-  },
-  "Generator": {
-    "Honda": ["Portable", "Inverter"],
-    "Kirloskar": ["Green", "Chota Chilli"],
-    "Cummins": ["Power", "QSK"],
-    "Mahindra": ["Powerol"],
-    "Caterpillar": ["Diesel Genset", "Gas Genset"],
     "Other": ["Other"]
   }
 } as const;

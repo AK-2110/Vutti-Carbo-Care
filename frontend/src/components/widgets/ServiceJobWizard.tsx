@@ -6,9 +6,8 @@ const PRICING: Record<VehicleType, number> = {
   "Two Wheeler": 799,
   "Three Wheeler": 999,
   "Car": 1999,
-  "Van/Tractor/JCB": 2999,
-  "Bus / Truck": 3999,
-  "Generator": 2999
+  "Van / Tractor / JCB / Generator": 2999,
+  "Bus / Truck": 3999
 };
 
 export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => void }) {
@@ -136,7 +135,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
                   setVehicleType(newType);
                   setEngineType(
                     newType.includes('Two Wheeler') ? '' : 
-                    newType === 'Bus / Truck' || newType === 'Van/Tractor/JCB' ? 'Diesel' : 'Petrol'
+                    newType === 'Bus / Truck' || newType === 'Van / Tractor / JCB / Generator' ? 'Diesel' : 'Petrol'
                   );
                   setVehicleMake('');
                   setVehicleModel('');
@@ -247,7 +246,7 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
                     onChange={(e) => setEngineType(e.target.value)}
                     className="w-full px-4 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-default/20 focus:border-brand-default transition-all"
                   >
-                    {vehicleType === 'Bus / Truck' || vehicleType === 'Van/Tractor/JCB' ? (
+                    {vehicleType === 'Bus / Truck' || vehicleType === 'Van / Tractor / JCB / Generator' ? (
                       <>
                         <option value="Diesel">Diesel</option>
                         <option value="Petrol">Petrol</option>
