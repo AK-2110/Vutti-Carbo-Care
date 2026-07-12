@@ -7,7 +7,7 @@ const PRICING: Record<VehicleType, number> = {
   "Three Wheeler": 999,
   "Car": 1999,
   "Van / Tractor / JCB / Generator": 2999,
-  "Bus / Truck": 3999
+  "Bus / Truck": 4999
 };
 
 export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => void }) {
