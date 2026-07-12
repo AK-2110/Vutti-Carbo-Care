@@ -6,8 +6,8 @@ const PRICING: Record<VehicleType, number> = {
   "Two Wheeler": 799,
   "Three Wheeler": 999,
   "Car": 1999,
-  "Van/Tractor/JCB": 2499,
-  "Bus / Truck": 3499,
+  "Van/Tractor/JCB": 2999,
+  "Bus / Truck": 3999,
   "Generator": 2999
 };
 

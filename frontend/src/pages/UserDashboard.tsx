@@ -187,12 +187,12 @@ export default function UserDashboard({ setActiveTab }: { setActiveTab?: (tab: s
               <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
                 <td className="px-4 py-3">4</td>
                 <td className="px-4 py-3 font-medium">Van / Tractor / JCB</td>
-                <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-500">2,499/-</td>
+                <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-500">2,999/-</td>
               </tr>
               <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
                 <td className="px-4 py-3">5</td>
                 <td className="px-4 py-3 font-medium">Bus / Truck</td>
-                <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-500">3,499/-</td>
+                <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-500">3,999/-</td>
               </tr>
               <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
                 <td className="px-4 py-3">6</td>
