@@ -67,6 +67,22 @@ async function initUser() {
       ALTER TABLE service_jobs ADD COLUMN IF NOT EXISTS rating INTEGER
     `).catch(() => {});
 
+    // Migrate legacy vehicle types for service_jobs
+    await db.execute(sql`
+      UPDATE service_jobs SET vehicle_type = 'Two Wheeler' WHERE vehicle_type LIKE 'Two Wheeler%';
+      UPDATE service_jobs SET vehicle_type = 'Car' WHERE vehicle_type LIKE 'Car%';
+      UPDATE service_jobs SET vehicle_type = 'Bus / Truck' WHERE vehicle_type = 'Bus' OR vehicle_type = 'Truck';
+      UPDATE service_jobs SET vehicle_type = 'Van / Tractor / JCB / Generator' WHERE vehicle_type = 'Van / Tractor / JCB' OR vehicle_type = 'Generator';
+    `).catch((e) => console.error("Migration error jobs:", e));
+
+    // Migrate legacy vehicle types for customers
+    await db.execute(sql`
+      UPDATE customers SET primary_vehicle = 'Two Wheeler' WHERE primary_vehicle LIKE 'Two Wheeler%';
+      UPDATE customers SET primary_vehicle = 'Car' WHERE primary_vehicle LIKE 'Car%';
+      UPDATE customers SET primary_vehicle = 'Bus / Truck' WHERE primary_vehicle = 'Bus' OR primary_vehicle = 'Truck';
+      UPDATE customers SET primary_vehicle = 'Van / Tractor / JCB / Generator' WHERE primary_vehicle = 'Van / Tractor / JCB' OR primary_vehicle = 'Generator';
+    `).catch((e) => console.error("Migration error customers:", e));
+
     const existing = await db.select().from(users);
     if (existing.length === 0) {
       await db.insert(users).values({
