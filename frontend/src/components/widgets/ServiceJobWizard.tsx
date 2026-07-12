@@ -256,7 +256,6 @@ export default function ServiceJobWizard({ onJobLogged }: { onJobLogged: () => v
                         <option value="Petrol">Petrol</option>
                         <option value="Diesel">Diesel</option>
                         <option value="Hybrid">Hybrid</option>
-                        <option value="Electric">Electric</option>
                       </>
                     )}
                   </select>
