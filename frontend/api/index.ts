@@ -160,7 +160,13 @@ app.post('/api/jobs', async (req, res) => {
     }).where(eq(customers.id, customer.id));
 
     if (customer.phone) {
-      const message = `🚗 Vutti Carbo Care Update:\nHi ${customer.name}, the Engine Carbon Cleaning for your ${vehicleMake} ${vehicleModel} is complete!\nYour engine is now running smoother and cleaner! Thank you for choosing Vutti.`;
+      const googleMapsUrl = 'https://www.google.com/maps/place/VUTTI+CARBO+CARE+KADAPA/@14.4593071,78.8696469,19z/data=!4m6!3m5!1s0x3bb37397b7a88453:0x4cbad3e07f8bd30d!8m2!3d14.4594923!4d78.8692379!16s%2Fg%2F11wtjd9bth';
+      let message = `🚗 *Vutti Carbo Care Update:*\nHi ${customer.name}, the Engine Carbon Cleaning for your ${vehicleMake} ${vehicleModel} is complete!\nYour engine is now running smoother and cleaner! Thank you for choosing Vutti.\n\nWe'd really appreciate it if you could share your experience on Google Maps. Click here to post a review:\n${googleMapsUrl}`;
+      
+      if (review) {
+        message += `\n\n(To save time, you can just copy and paste the feedback you shared with us today:)\n*"${review}"*`;
+      }
+
       await sendWhatsAppMessage(customer.phone, message);
     }
 
